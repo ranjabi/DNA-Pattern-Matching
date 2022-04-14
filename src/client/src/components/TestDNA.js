@@ -36,7 +36,7 @@ const TestDNA = (props) => {
     };
 
     const submitTestResult = () => {
-        Axios.post("http://localhost:3001/api/insert-test-result", {
+        Axios.post("https://dna-tester.herokuapp.com/api/insert-test-result", {
             dates: date,
             disease: enteredDisease,
             dna_sequence: enteredDNASequence,

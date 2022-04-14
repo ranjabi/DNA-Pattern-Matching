@@ -14,7 +14,7 @@ const AddDisease = (props) => {
   };
 
   const submitDisease = () => {
-    Axios.post("http://localhost:3001/api/insert-diseases-list", {
+    Axios.post("https://dna-tester.herokuapp.com/api/insert-diseases-list", {
       disease_name: diseaseName,
       dna_sequence: DNASequence,
     }).then(() => {
