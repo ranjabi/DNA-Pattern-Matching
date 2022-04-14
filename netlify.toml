@@ -1,7 +1,0 @@
-[build]
- base = "src/client"
-
-[[redirects]]
- from = '/*'
- to = 'src/client/index.html'
- status = 200
