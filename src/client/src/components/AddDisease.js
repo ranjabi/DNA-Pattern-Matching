@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState  } from "react";
 import Axios from "axios";
 
-const AddDisease = () => {
+const AddDisease = (props) => {
   const [diseaseName, setDiseaseName] = useState("");
   const [DNASequence, setDNASequence] = useState("");
-  const [diseasesList, setDiseasesList] = useState([]);
 
   const diseaseNameChangeHandler = (event) => {
     setDiseaseName(event.target.value);
@@ -15,7 +14,7 @@ const AddDisease = () => {
   };
 
   const submitDisease = () => {
-    Axios.post("http://localhost:3001/api/insert", {
+    Axios.post("http://localhost:3001/api/insert-diseases-list", {
       disease_name: diseaseName,
       dna_sequence: DNASequence,
     }).then(() => {
@@ -24,14 +23,6 @@ const AddDisease = () => {
     setDiseaseName("");
     setDNASequence("");
   };
-
-  useEffect(() => {
-    Axios.get("http://localhost:3001/api/get").then((response) => {
-      setDiseasesList(response.data);
-    });
-  });
-
-  const showDiseases = () => {};
 
   return (
     <div class="App">
@@ -54,12 +45,11 @@ const AddDisease = () => {
       </button>
 
       <p>Loaded sql:</p>
-      {diseasesList.map((val) => {
+      {props.items.map((val) => {
         return (
-          <div>
+          <div style={{textAlign: "left"}}>
             <label>
-              ID: {val.id} Disease name: {val.disease_name} DNA Sequence:{" "}
-              {val.dna_sequence}
+              {val.id}, {val.disease_name}, {val.dna_sequence}
             </label>
           </div>
         );
