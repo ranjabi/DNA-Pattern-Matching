@@ -1,73 +1,100 @@
 const express = require("express");
 const bodyparser = require("body-parser");
 const cors = require("cors");
+const { application } = require("express");
 const app = express();
-const mysql = require("mysql");
+
+const Pool = require("pg").Pool;
+const pool = new Pool({
+    user: "bzflpdkajwjyui",
+    host: "ec2-44-194-4-127.compute-1.amazonaws.com",
+    database: "d85gcsh9u91r2i",
+    password:
+        "40aab3d40cad2bc7b13bb36f2a68ccc833c6534f6460cce7cffb14eadae29bf0",
+    port: 5432,
+    ssl: {
+        rejectUnauthorized: false,
+    },
+});
+
+pool.connect((err, client, release) => {
+    if (err) {
+        return console.error("Error acquiring client", err.stack);
+    }
+});
 
 const PORT = 3001;
-
-const db = mysql.createPool({
-  // configure user and password using your profile
-  host: "remotemysql.com",
-  user: "1dWSdg0tkb",
-  password: "v1x6OUsqMG",
-  database: "1dWSdg0tkb",
-});
 
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
-app.get('/favicon.ico', (req, res) => {
-  res.sendStatus(204);
+app.get("/favicon.ico", (req, res) => {
+    res.sendStatus(204);
 });
 
-app.get("/api/diseases-list", (req, res) => {
-  const sqlShowDisease = "SELECT * FROM diseases;";
-  db.query(sqlShowDisease, (err, result) => {
-    // console.log(result)
-    res.send(result);
-  });
-});
+const getDiseasesList = (req, res) => {
+    pool.query("SELECT * FROM diseases", (err, result) => {
+        if (err) {
+            throw err;
+        }
+        res.status(200).json(result.rows);
+    });
+};
 
-app.post("/api/insert-diseases-list", (req, res) => {
-  const disease_name = req.body.disease_name;
-  const dna_sequence = req.body.dna_sequence;
-  
-  const sqlInsertDisease =
-  "INSERT INTO diseases (disease_name, dna_sequence) VALUES (?, ?);";
-  db.query(sqlInsertDisease, [disease_name, dna_sequence], (err, result) => {
-    console.log(result);
-  });
-});
+const insertDiseasesList = (req, res) => {
+    const disease_name = req.body.disease_name;
+    const dna_sequence = req.body.dna_sequence;
+    pool.query(
+        "INSERT INTO diseases (disease_name, dna_sequence) VALUES ($1, $2)",
+        [disease_name, dna_sequence],
+        (err, result) => {
+            if (err) {
+                throw err;
+            }
+            res.status(200).json(result.rows);
+        }
+    );
+};
 
-app.get("/api/test-result", (req, res) => {
-  const sqlShowTestResult = "SELECT * FROM test_result;";
-  db.query(sqlShowTestResult, (err, result) => {
-    // console.log(result)
-    res.send(result);
-  });
-});
+const getTestResult = (req, res) => {
+    pool.query("SELECT * FROM test_result", (err, result) => {
+        if (err) {
+            throw err;
+        }
+        res.status(200).json(result.rows);
+    });
+};
 
-app.post("/api/insert-test-result", (req, res) => {
-  const dates = req.body.dates;
-  const disease = req.body.disease;
-  const dna_sequence = req.body.dna_sequence;
-  const similarity = req.body.similarity;
-  const isInfected = req.body.isInfected;
-  const username = req.body.username;
+const insertTestResult = (req, res) => {
+    const dates = req.body.dates;
+    const disease = req.body.disease;
+    const dna_sequence = req.body.dna_sequence;
+    const similarity = req.body.similarity;
+    const isInfected = req.body.isInfected;
+    const username = req.body.username;
+    pool.query(
+        "INSERT INTO test_result (dates, username, disease, dna_sequence, similarity, isInfected) VALUES ($1, $2, $3, $4, $5, $6)",
+        [dates, username, disease, dna_sequence, similarity, isInfected],
+        (err, result) => {
+            if (err) {
+                throw err;
+            }
+            console.log(res)
+            res.status(200).json(result.rows);
+        }
+    );
+};
 
-  const sqlInsertTestResult =
-    "INSERT INTO test_result (dates, username, disease, dna_sequence, similarity, isInfected) VALUES (?, ?, ?, ?, ?, ?);";
-  db.query(sqlInsertTestResult, [dates, username, disease, dna_sequence, similarity, isInfected], (err, result) => {
-    console.log(result);
-  });
-});
+app.get("/api/diseases-list", getDiseasesList);
+app.post("/api/insert-diseases-list", insertDiseasesList);
+app.get("/api/test-result", getTestResult);
+app.post("/api/insert-test-result", insertTestResult);
 
 app.get("/", (req, res) => {
-  res.sendFile("./index.html", {root: __dirname });
+    res.sendFile("./index.html", { root: __dirname });
 });
 
 app.listen(process.env.PORT || PORT, () => {
-  console.log("Server is connected");
+    console.log("Server is connected");
 });
