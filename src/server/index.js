@@ -4,6 +4,8 @@ const cors = require("cors");
 const app = express();
 const mysql = require("mysql");
 
+const PORT = 3001;
+
 const db = mysql.createPool({
   // configure user and password using your profile
   host: "localhost",
@@ -15,6 +17,10 @@ const db = mysql.createPool({
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
+
+app.get('/favicon.ico', (req, res) => {
+  res.sendStatus(404);
+});
 
 app.get("/api/diseases-list", (req, res) => {
   const sqlShowDisease = "SELECT * FROM diseases;";
@@ -62,6 +68,6 @@ app.get("/", (req, res) => {
   res.sendFile("./index.html", {root: __dirname });
 });
 
-app.listen(3001, () => {
+app.listen(process.env.PORT || PORT, () => {
   console.log("Server is connected");
 });
