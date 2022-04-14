@@ -8,6 +8,7 @@ import Axios from "axios";
 function App() {
     const [diseasesList, setDiseasesList] = useState([]);
     const [testResult, setTestResult] = useState([]);
+    const [showAdvanced, setShowAdvanced] = useState(false);
 
     useEffect(() => {
         Axios.get("https://dna-tester.herokuapp.com/api/diseases-list").then(
@@ -25,6 +26,14 @@ function App() {
         );
     });
 
+    const magicButtonHandler = () => {
+        if (showAdvanced) {
+            setShowAdvanced(false);
+        } else {
+            setShowAdvanced(true);
+        }
+    };
+
     return (
         <div>
             <div className="Container">
@@ -32,12 +41,8 @@ function App() {
                 <TestDNA items={testResult} />
                 <FindResult items={testResult} />
             </div>
-            <div className="Container">
-                <div className="Container Column Margin">
-                    <label>SQL Query:</label>
-                    <input type="text" size="100" />
-                    <button type="submit">Execute</button>
-                </div>
+            <button onClick={magicButtonHandler}>Show Database</button>
+            <div className={showAdvanced ? "Container" : "Hide"}>
                 <div className="Margin">
                     <p>Loaded sql:</p>
                     <p>id, disease_name, dna_sequence</p>
