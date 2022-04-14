@@ -44,16 +44,7 @@ const AddDisease = (props) => {
         Submit
       </button>
 
-      <p>Loaded sql:</p>
-      {props.items.map((val) => {
-        return (
-          <div style={{textAlign: "left"}}>
-            <label>
-              {val.id}, {val.disease_name}, {val.dna_sequence}
-            </label>
-          </div>
-        );
-      })}
+
     </div>
   );
 };
