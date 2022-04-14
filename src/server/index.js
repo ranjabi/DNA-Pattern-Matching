@@ -4,7 +4,7 @@ const cors = require("cors");
 const app = express();
 const mysql = require("mysql");
 
-const PORT = 3306;
+const PORT = 3001;
 
 const db = mysql.createPool({
   // configure user and password using your profile
