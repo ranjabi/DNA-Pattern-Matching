@@ -4,14 +4,14 @@ const cors = require("cors");
 const app = express();
 const mysql = require("mysql");
 
-const PORT = 3001;
+const PORT = 3306;
 
 const db = mysql.createPool({
   // configure user and password using your profile
-  host: "localhost",
-  user: "root",
-  password: "123456",
-  database: "dna",
+  host: "remotemysql.com",
+  user: "1dWSdg0tkb",
+  password: "v1x6OUsqMG",
+  database: "1dWSdg0tkb",
 });
 
 app.use(bodyparser.urlencoded({ extended: true }));
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get('/favicon.ico', (req, res) => {
-  res.sendStatus(404);
+  res.sendStatus(204);
 });
 
 app.get("/api/diseases-list", (req, res) => {
