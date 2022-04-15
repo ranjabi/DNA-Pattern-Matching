@@ -49,34 +49,47 @@ const TestDNA = (props) => {
     };
 
     const submitTestResult = () => {
-        Axios.post("https://dna-tester.herokuapp.com/api/insert-test-result", {
-            dates: date,
-            disease: enteredDisease,
-            dna_sequence: enteredDNASequence,
-            similarity: similarity,
-            isInfected: isInfected,
-            username: enteredUsername,
-        }).then(() => {
-            alert("Insert Success");
-        });
+        if (isValidDNASequence(enteredDNASequence)) {
+            Axios.post("https://dna-tester.herokuapp.com/api/insert-test-result", {
+                dates: date,
+                disease: enteredDisease,
+                dna_sequence: enteredDNASequence,
+                similarity: similarity,
+                isInfected: isInfected,
+                username: enteredUsername,
+            }).then(() => {
+                alert("Insert Success");
+            });
+        } else {
+            alert("Invalid DNA Sequence");
+        }
         setEnteredDisease("");
         setEnteredUsername("");
     };
 
     const submitTestResultFromFile = () => {
-        Axios.post("https://dna-tester.herokuapp.com/api/insert-test-result", {
-            dates: date,
-            disease: enteredDisease,
-            dna_sequence: fileContent,
-            similarity: similarity,
-            isInfected: isInfected,
-            username: enteredUsername,
-        }).then(() => {
-            alert("Insert Success");
-        });
+        if (isValidDNASequence(enteredDNASequence)) {
+            Axios.post("https://dna-tester.herokuapp.com/api/insert-test-result", {
+                dates: date,
+                disease: enteredDisease,
+                dna_sequence: fileContent,
+                similarity: similarity,
+                isInfected: isInfected,
+                username: enteredUsername,
+            }).then(() => {
+                alert("Insert Success");
+            });
+        } else {
+            alert("Invalid DNA Sequence");
+        }
         setEnteredDisease("");
         setEnteredUsername("");
     };
+
+    var isValidDNASequence = function(str){
+        const re = new RegExp(/^[ACGT]+$/);
+        return re.test(str);
+    }
 
     return (
         <div class="App">
