@@ -28,32 +28,48 @@ const AddDisease = (props) => {
     };
 
     const submitDisease = () => {
-        Axios.post(
-            "https://dna-tester.herokuapp.com/api/insert-diseases-list",
-            {
-                disease_name: diseaseName,
-                dna_sequence: DNASequence,
-            }
-        ).then(() => {
-            alert("Insert Success");
-        });
+        if (isValidDNASequence(DNASequence)) {
+            Axios.post(
+                "https://dna-tester.herokuapp.com/api/insert-diseases-list",
+                {
+                    disease_name: diseaseName,
+                    dna_sequence: DNASequence,
+                }
+            ).then(() => {
+                alert("Insert Success");
+            });
+        } else {
+            alert("Invalid DNA Sequence");
+        }
+
         setDiseaseName("");
         setDNASequence("");
     };
 
     const submitDiseaseFromFile = () => {
-      Axios.post(
-          "https://dna-tester.herokuapp.com/api/insert-diseases-list",
-          {
-              disease_name: diseaseName,
-              dna_sequence: fileContent,
-          }
-      ).then(() => {
-          alert("Insert Success");
-      });
-      setDiseaseName("");
-      setDNASequence("");
-  };
+        if (isValidDNASequence(DNASequence)) {
+            Axios.post(
+                "https://dna-tester.herokuapp.com/api/insert-diseases-list",
+                {
+                    disease_name: diseaseName,
+                    dna_sequence: fileContent,
+                }
+            ).then(() => {
+                alert("Insert Success");
+            });
+        } else {
+            alert("Invalid DNA Sequence");
+        }
+        
+        setDiseaseName("");
+        setDNASequence("");
+    };
+
+    var isValidDNASequence = function(str){
+        const re = new RegExp(/^[ACGT]+$/);
+        console.log(re.test(str));
+        return re.test(str);
+    }
 
     return (
         <div class="App">
@@ -70,7 +86,7 @@ const AddDisease = (props) => {
                 name="dna-sequence"
                 onChange={DNASequenceChangeHandler}
             />
-                        <input
+            <input
                 type="file" onChange={handleFileChange}
             />
             <button type="submit" onClick={submitDisease}>
