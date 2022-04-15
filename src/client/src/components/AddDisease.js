@@ -30,7 +30,7 @@ const AddDisease = (props) => {
     const submitDisease = () => {
         if (isValidDNASequence(DNASequence)) {
             Axios.post(
-                "http://dna-tester.herokuapp.com/api/insert-diseases-list",
+                "https://dna-tester.herokuapp.com/api/insert-diseases-list",
                 {
                     disease_name: diseaseName,
                     dna_sequence: DNASequence,
@@ -50,7 +50,7 @@ const AddDisease = (props) => {
         if (isValidDNASequence(DNASequence)) {
             console.log(DNASequence + "valid")
             Axios.post(
-                "http://dna-tester.herokuapp.com/api/insert-diseases-list",
+                "https://dna-tester.herokuapp.com/api/insert-diseases-list",
                 {
                     disease_name: diseaseName,
                     dna_sequence: fileContent,

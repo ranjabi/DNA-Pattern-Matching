@@ -11,7 +11,7 @@ function App() {
     const [showAdvanced, setShowAdvanced] = useState(false);
 
     useEffect(() => {
-        Axios.get("http://dna-tester.herokuapp.com/api/diseases-list").then(
+        Axios.get("https://dna-tester.herokuapp.com/api/diseases-list").then(
             (response) => {
                 setDiseasesList(response.data);
             }
@@ -19,7 +19,7 @@ function App() {
     });
 
     useEffect(() => {
-        Axios.get("http://dna-tester.herokuapp.com/api/test-result").then(
+        Axios.get("https://dna-tester.herokuapp.com/api/test-result").then(
             (response) => {
                 setTestResult(response.data);
             }

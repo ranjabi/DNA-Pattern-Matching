@@ -50,7 +50,7 @@ const TestDNA = (props) => {
 
     const submitTestResult = () => {
         if (isValidDNASequence(enteredDNASequence)) {
-            Axios.post("http://dna-tester.herokuapp.com/api/insert-test-result", {
+            Axios.post("https://dna-tester.herokuapp.com/api/insert-test-result", {
                 dates: datetime,
                 disease: enteredDisease,
                 dna_sequence: enteredDNASequence,
@@ -69,7 +69,7 @@ const TestDNA = (props) => {
 
     const submitTestResultFromFile = () => {
         if (isValidDNASequence(enteredDNASequence)) {
-            Axios.post("http://dna-tester.herokuapp.com/api/insert-test-result", {
+            Axios.post("https://dna-tester.herokuapp.com/api/insert-test-result", {
                 dates: datetime,
                 disease: enteredDisease,
                 dna_sequence: fileContent,
