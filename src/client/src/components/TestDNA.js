@@ -10,11 +10,11 @@ const TestDNA = (props) => {
     const [date, setDate] = useState("2022/04/13");
     const [fileContent, setFileContent] = useState("");
 
-    // let dateNow = new Date().toLocaleDateString();
-    // const dd = date.getDate();
-    // const mm = date.getMonth() + 1;
-    // const yyyy = date.getFullYear();
-    // date = yyyy + "/" + mm + "/" + dd;
+    var dt = new Date();
+    const datetime = (
+        dt.getDate().toString().padStart(2, '0') + ' ' +
+        dt.toLocaleString('default', { month: 'long' }) + ' ' +
+        dt.getFullYear().toString().padStart(4, '0'));
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -51,7 +51,7 @@ const TestDNA = (props) => {
     const submitTestResult = () => {
         if (isValidDNASequence(enteredDNASequence)) {
             Axios.post("https://dna-tester.herokuapp.com/api/insert-test-result", {
-                dates: date,
+                dates: datetime,
                 disease: enteredDisease,
                 dna_sequence: enteredDNASequence,
                 similarity: similarity,
@@ -70,7 +70,7 @@ const TestDNA = (props) => {
     const submitTestResultFromFile = () => {
         if (isValidDNASequence(enteredDNASequence)) {
             Axios.post("https://dna-tester.herokuapp.com/api/insert-test-result", {
-                dates: date,
+                dates: datetime,
                 disease: enteredDisease,
                 dna_sequence: fileContent,
                 similarity: similarity,
@@ -122,6 +122,7 @@ const TestDNA = (props) => {
             <div>
                 <p>File Content: {fileContent}</p>
                 <p>Tanggal - Pengguna - Penyakit - Similarity - True/False</p>
+                <p>{datetime} - {enteredUsername} - {enteredDisease} - {similarity} - True/False</p>
             </div>
         </div>
     );
