@@ -4,7 +4,7 @@ const FindResult = (props) => {
     const [searchTerm, setSearchTerm] = useState('')
 
     return (
-        <div className="App">
+        <div className="card">
             <h1>Find Result</h1>
             <input type="text" name="input-query" placeholder="Search..." onChange={(event) => {setSearchTerm(event.target.value)}}/>
             <p>id, dates, disease, dna_sequence, similarity, isInfected</p>

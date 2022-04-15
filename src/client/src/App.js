@@ -11,7 +11,7 @@ function App() {
     const [showAdvanced, setShowAdvanced] = useState(false);
 
     useEffect(() => {
-        Axios.get("https://dna-tester.herokuapp.com/api/diseases-list").then(
+        Axios.get("http://dna-tester.herokuapp.com/api/diseases-list").then(
             (response) => {
                 setDiseasesList(response.data);
             }
@@ -19,7 +19,7 @@ function App() {
     });
 
     useEffect(() => {
-        Axios.get("https://dna-tester.herokuapp.com/api/test-result").then(
+        Axios.get("http://dna-tester.herokuapp.com/api/test-result").then(
             (response) => {
                 setTestResult(response.data);
             }
@@ -35,15 +35,16 @@ function App() {
     };
 
     return (
-        <div>
-            <div className="Container">
+        <div class="bg-primary p-4">
+            <div className="bg-primary p-14 flex justify-center">
                 <AddDisease items={diseasesList} />
                 <TestDNA items={testResult} />
                 <FindResult items={testResult} />
             </div>
-            <button onClick={magicButtonHandler}>Show Database</button>
-            <div className={showAdvanced ? "Container" : "Hide"}>
-                <div className="Margin">
+            <button class="text-white" onClick={magicButtonHandler}>Show Database</button>
+            <div className={showAdvanced ? "container" : "Hide"}>
+            {/* <div className="container"> */}
+                <div class="bg-secondary p-8 rounded-2xl">
                     <p>Loaded sql:</p>
                     <p>id, disease_name, dna_sequence</p>
                     {diseasesList.map((val) => {
@@ -57,7 +58,7 @@ function App() {
                         );
                     })}
                 </div>
-                <div className="Margin">
+                <div class="bg-secondary p-8 rounded-2xl mx-4">
                     <p>Loaded sql:</p>
                     <p>
                         id, dates, disease, dna_sequence, similarity, isInfected

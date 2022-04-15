@@ -30,7 +30,7 @@ const AddDisease = (props) => {
     const submitDisease = () => {
         if (isValidDNASequence(DNASequence)) {
             Axios.post(
-                "https://dna-tester.herokuapp.com/api/insert-diseases-list",
+                "http://dna-tester.herokuapp.com/api/insert-diseases-list",
                 {
                     disease_name: diseaseName,
                     dna_sequence: DNASequence,
@@ -48,21 +48,22 @@ const AddDisease = (props) => {
 
     const submitDiseaseFromFile = () => {
         if (isValidDNASequence(DNASequence)) {
+            console.log(DNASequence + "valid")
             Axios.post(
-                "https://dna-tester.herokuapp.com/api/insert-diseases-list",
+                "http://dna-tester.herokuapp.com/api/insert-diseases-list",
                 {
                     disease_name: diseaseName,
                     dna_sequence: fileContent,
                 }
             ).then(() => {
                 alert("Insert Success");
+                setDiseaseName("");
+                setDNASequence("");
             });
         } else {
             alert("Invalid DNA Sequence");
         }
         
-        setDiseaseName("");
-        setDNASequence("");
     };
 
     var isValidDNASequence = function(str){
@@ -72,7 +73,7 @@ const AddDisease = (props) => {
     }
 
     return (
-        <div class="App">
+        <div className="card">
             <h1>Add Disease</h1>
             <label>Nama Penyakit:</label>
             <input
@@ -86,13 +87,13 @@ const AddDisease = (props) => {
                 name="dna-sequence"
                 onChange={DNASequenceChangeHandler}
             />
-            <input
+            <input class="bg-primary rounded-lg text-white text-md w-72"
                 type="file" onChange={handleFileChange}
             />
-            <button type="submit" onClick={submitDisease}>
+            <button onClick={submitDisease}>
                 Submit using Input
             </button>
-            <button type="submit" onClick={submitDiseaseFromFile}>
+            <button onClick={submitDiseaseFromFile}>
                 Submit using File Upload
             </button>
             <p>File Content: {fileContent}</p>

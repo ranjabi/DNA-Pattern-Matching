@@ -1,10 +1,43 @@
-input, button{
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-3xl mb-7 ml-4 mt-5
+  }
+  label {
+    @apply text-xl ml-4
+  }
+  input {
+    @apply text-xl rounded-md m-4 text-black p-1
+  }
+  button {
+    @apply bg-tertiary hover:bg-blue-900 my-4 rounded-md w-56 mx-auto h-8
+  }
+}
+
+@Layer component {
+  .card {
+    @apply bg-secondary text-white flex flex-col max-w-md p-10 rounded-2xl mx-8
+  }
+
+  .Hide {
+    @apply hidden
+  }
+
+  .container {
+    @apply bg-primary text-white text-lg p-7 flex
+  }
+}
+
+/* input, button{
   margin: 0.5rem;
 }
 
 .App {
   text-align: center;
-  border: 1px solid rgb(0, 0, 0);
+  border: 1px solid rgb(228, 189, 189);
   padding: 7rem;
   margin: 3rem;
   display: flex;
@@ -30,4 +63,4 @@ input, button{
 
 .Hide {
   Display: none;
-}
+} */

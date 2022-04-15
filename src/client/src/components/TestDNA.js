@@ -50,7 +50,7 @@ const TestDNA = (props) => {
 
     const submitTestResult = () => {
         if (isValidDNASequence(enteredDNASequence)) {
-            Axios.post("https://dna-tester.herokuapp.com/api/insert-test-result", {
+            Axios.post("http://dna-tester.herokuapp.com/api/insert-test-result", {
                 dates: datetime,
                 disease: enteredDisease,
                 dna_sequence: enteredDNASequence,
@@ -69,7 +69,7 @@ const TestDNA = (props) => {
 
     const submitTestResultFromFile = () => {
         if (isValidDNASequence(enteredDNASequence)) {
-            Axios.post("https://dna-tester.herokuapp.com/api/insert-test-result", {
+            Axios.post("http://dna-tester.herokuapp.com/api/insert-test-result", {
                 dates: datetime,
                 disease: enteredDisease,
                 dna_sequence: fileContent,
@@ -78,12 +78,12 @@ const TestDNA = (props) => {
                 username: enteredUsername,
             }).then(() => {
                 alert("Insert Success");
+                setEnteredDisease("");
+                setEnteredUsername("");
             });
         } else {
             alert("Invalid DNA Sequence");
         }
-        setEnteredDisease("");
-        setEnteredUsername("");
     };
 
     var isValidDNASequence = function(str){
@@ -92,7 +92,7 @@ const TestDNA = (props) => {
     }
 
     return (
-        <div class="App">
+        <div className="card">
             <h1>Test DNA</h1>
             <label>Nama Pengguna:</label>
             <input
@@ -106,17 +106,17 @@ const TestDNA = (props) => {
                 name="dna-sequence"
                 onChange={DNASequenceChangeHandler}
             />
-            <input type="file" onChange={handleFileChange}></input>
+            <input class="bg-primary rounded-lg text-white text-md w-72" type="file" onChange={handleFileChange}></input>
             <label>Prediksi Penyakit:</label>
             <input
                 type="text"
                 name="predicted-disease"
                 onChange={diseaseChangeHandler}
             />
-            <button type="Submit" onClick={submitTestResult}>
+            <button onClick={submitTestResult}>
                 Submit using Input
             </button>
-            <button type="Submit" onClick={submitTestResultFromFile}>
+            <button onClick={submitTestResultFromFile}>
                 Submit using File Upload
             </button>
             <div>
