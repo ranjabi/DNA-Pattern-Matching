@@ -1,0 +1,39 @@
+const max = (a, b) => a > b ? a : b;
+ 
+const lcs = (text, pattern) => {
+    var m = text.length;
+    var n = pattern.length;
+
+    var L = new Array(m + 1);
+    for(var i = 0; i < L.length; i++) {
+        L[i] = new Array(n + 1);
+    }
+    
+    var i, j;
+     
+    for(i = 0; i <= m; i++) {
+        for(j = 0; j <= n; j++) {
+            if (i == 0 || j == 0)
+                L[i][j] = 0;
+            else if (text[i - 1] == pattern[j - 1])
+                L[i][j] = L[i - 1][j - 1] + 1;
+            else
+                L[i][j] = max(L[i - 1][j], L[i][j - 1]);
+        }
+    }
+    return L[m][n];
+}
+
+const rateLCS = (text, pattern) => {
+    let lcsLength = lcs(text, pattern);
+    let lcsRate = lcsLength / pattern.length;
+    return lcsRate;
+}
+ 
+// tes driver
+var text = "ACGTACGTA";
+var pattern = "TACGTC";
+ 
+
+console.log("Length of LCS is " + lcs(text, pattern));
+console.log("Rate of LCS is " + rateLCS(text, pattern));
