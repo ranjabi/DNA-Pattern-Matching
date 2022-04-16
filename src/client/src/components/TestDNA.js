@@ -100,7 +100,7 @@ const TestDNA = (props) => {
                 name="username"
                 onChange={usernameChangeHandler}
             />
-            <label>Sequence DNA:</label>
+            <label>Sequence DNA Pengguna:</label>
             <input
                 type="text"
                 name="dna-sequence"
