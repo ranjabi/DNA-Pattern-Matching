@@ -3,6 +3,7 @@ const bodyparser = require("body-parser");
 const cors = require("cors");
 const { application } = require("express");
 const app = express();
+var sm = require('./stringMatching');
 
 const Pool = require("pg").Pool;
 const pool = new Pool({
