@@ -16,7 +16,7 @@ function App() {
                 setDiseasesList(response.data);
             }
         );
-    });
+    }, []);
 
     useEffect(() => {
         Axios.get("https://dna-tester.herokuapp.com/api/test-result").then(
@@ -24,7 +24,7 @@ function App() {
                 setTestResult(response.data);
             }
         );
-    });
+    }, []);
 
     const magicButtonHandler = () => {
         if (showAdvanced) {
