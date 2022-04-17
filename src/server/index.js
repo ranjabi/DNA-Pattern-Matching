@@ -49,7 +49,7 @@ const getDiseaseDNASequence = (disease_name) => {
             if (err) {
                 throw err;
             }
-            return result.rows[0].dna_sequence;
+            res.status(200).json(result.rows);
     });
 };
 
@@ -86,6 +86,8 @@ const insertTestResult = (req, res) => {
 
     const disease_sequence = getDiseaseDNASequence(disease);
     const isInfected = sm.isInfected(dna_sequence, disease_sequence);
+    console.log(disease_sequence);
+    console.log(isInfected);
 
     pool.query(
         "INSERT INTO test_result (dates, username, disease, dna_sequence, similarity, isInfected) VALUES ($1, $2, $3, $4, $5, $6)",
@@ -104,6 +106,7 @@ app.get("/api/diseases-list", getDiseasesList);
 app.post("/api/insert-diseases-list", insertDiseasesList);
 app.get("/api/test-result", getTestResult);
 app.post("/api/insert-test-result", insertTestResult);
+app.get("/api/diseases-dna-sequence", getDiseaseDNASequence);
 
 app.get("/", (req, res) => {
     res.sendFile("./index.html", { root: __dirname });
