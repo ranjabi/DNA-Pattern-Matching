@@ -126,7 +126,6 @@ const TestDNA = (props) => {
             <div>
                 <p>File Content: {fileContent}</p>
                 <p>Tanggal - Pengguna - Penyakit - Similarity - True/False</p>
-                getTestResults()
                 <p>{datetime} - {enteredUsername} - {enteredDisease} - {similarity} - {isInfected}</p>
             </div>
         </div>

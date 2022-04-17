@@ -43,7 +43,8 @@ const getDiseasesList = (req, res) => {
     });
 };
 
-const getDiseaseDNASequence = (disease_name) => {
+const getDiseaseDNASequence = (req, res) => {
+    disease_name = "strestubes";
     pool.query(
         "SELECT dna_sequence FROM diseases WHERE disease_name = $1", [disease_name], (err, result) => {
             if (err) {
@@ -83,11 +84,12 @@ const insertTestResult = (req, res) => {
     const dna_sequence = req.body.dna_sequence;
     const similarity = req.body.similarity;
     const username = req.body.username;
+    const isInfected = 4;
 
-    const disease_sequence = getDiseaseDNASequence(disease);
-    const isInfected = sm.isInfected(dna_sequence, disease_sequence);
-    console.log(disease_sequence);
-    console.log(isInfected);
+    // const disease_sequence = getDiseaseDNASequence(disease);
+    // const isInfected = sm.isInfected(dna_sequence, disease_sequence);
+    // console.log(disease_sequence);
+    // console.log(isInfected);
 
     pool.query(
         "INSERT INTO test_result (dates, username, disease, dna_sequence, similarity, isInfected) VALUES ($1, $2, $3, $4, $5, $6)",
