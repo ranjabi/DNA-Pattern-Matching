@@ -24,8 +24,8 @@ const lcs = (text, pattern) => {
     return L[m][n];
 }
 
-const rateLCS = (text, pattern) => {
+exports.rateLCS = function (text, pattern) {
     let lcsLength = lcs(text, pattern);
     let lcsRate = lcsLength / pattern.length;
     return lcsRate;
-}
+};

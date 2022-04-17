@@ -61,7 +61,7 @@ exports.isInfected = function (text, pattern) {
     } else {
         return 0;
     }
-}
+};
 
 const computeFail = (pattern) => {
     let m = pattern.length;

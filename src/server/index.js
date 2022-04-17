@@ -4,6 +4,7 @@ const cors = require("cors");
 const { application } = require("express");
 const app = express();
 var sm = require('./stringMatching');
+var lcs = require('./LCSAlgorithm')
 
 const Pool = require("pg").Pool;
 const pool = new Pool({
@@ -82,14 +83,17 @@ const insertTestResult = (req, res) => {
     const dates = req.body.dates;
     const disease = req.body.disease;
     const dna_sequence = req.body.dna_sequence;
-    const similarity = req.body.similarity;
     const username = req.body.username;
 
     // const disease_sequence = getDiseaseDNASequence(disease);
-    const disease_sequence = "ACC";
+    // dummy test: diesease strestubes, dna "ACC"
+    const disease_sequence = "ACCG";
     const isInfected = sm.isInfected(dna_sequence, disease_sequence);
     console.log(disease_sequence);
     console.log(isInfected);
+
+    const similarity = lcs.rateLCS(dna_sequence, disease_sequence);
+    console.log(similarity);
 
     console.log(isInfected);
 
