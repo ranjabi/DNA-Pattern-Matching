@@ -56,7 +56,7 @@ function App() {
         disease: _disease,
         dna_sequence: _dna_sequence,
         similarity: _similarity,
-        isInfected: _isInfected,
+        isinfected: _isInfected,
       },
     ]);
   };
