@@ -1,3 +1,6 @@
+// text : sequence DNA pengguna
+// pattern : sequence DNA penyakit
+
 exports.kmpMatch = function (text, pattern) {
     let n = text.length;
     let m = pattern.length;
@@ -51,6 +54,14 @@ exports.bmMatch = function (text, pattern) {
 
     return -1;
 };
+
+exports.isInfected = function (text, pattern) {
+    if (this.kmpMatch(text, pattern) !== -1) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
 
 const computeFail = (pattern) => {
     let m = pattern.length;

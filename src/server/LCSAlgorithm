@@ -29,11 +29,3 @@ const rateLCS = (text, pattern) => {
     let lcsRate = lcsLength / pattern.length;
     return lcsRate;
 }
- 
-// tes driver
-var text = "ACGTACGTA";
-var pattern = "TACGTC";
- 
-
-console.log("Length of LCS is " + lcs(text, pattern));
-console.log("Rate of LCS is " + rateLCS(text, pattern));
