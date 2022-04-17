@@ -2,82 +2,75 @@ import "./App.css";
 import AddDisease from "./components/AddDisease";
 import TestDNA from "./components/TestDNA";
 import FindResult from "./components/FindResult";
+import MagicButton from "./components/MagicButton";
 import { useState, useEffect } from "react";
 import Axios from "axios";
 
 function App() {
-    const [diseasesList, setDiseasesList] = useState([]);
-    const [testResult, setTestResult] = useState([]);
-    const [showAdvanced, setShowAdvanced] = useState(false);
+  const [diseasesList, setDiseasesList] = useState([]);
+  const [testResult, setTestResult] = useState([]);
 
-    useEffect(() => {
-        Axios.get("https://dna-tester.herokuapp.com/api/diseases-list").then(
-            (response) => {
-                setDiseasesList(response.data);
-            }
-        );
-    }, []);
-
-    useEffect(() => {
-        Axios.get("https://dna-tester.herokuapp.com/api/test-result").then(
-            (response) => {
-                setTestResult(response.data);
-            }
-        );
-    }, []);
-
-    const magicButtonHandler = () => {
-        if (showAdvanced) {
-            setShowAdvanced(false);
-        } else {
-            setShowAdvanced(true);
-        }
-    };
-
-    return (
-        <div class="bg-primary p-4">
-            <div className="bg-primary p-14 flex justify-center">
-                <AddDisease items={diseasesList} />
-                <TestDNA items={testResult} />
-                <FindResult items={testResult} />
-            </div>
-            <button class="text-white" onClick={magicButtonHandler}>Show Database</button>
-            <div className={showAdvanced ? "container" : "Hide"}>
-            {/* <div className="container"> */}
-                <div class="bg-secondary p-8 rounded-2xl">
-                    <p>Loaded sql:</p>
-                    <p>id, disease_name, dna_sequence</p>
-                    {diseasesList.map((val) => {
-                        return (
-                            <div style={{ textAlign: "left" }}>
-                                <label>
-                                    {val.id}, {val.disease_name},{" "}
-                                    {val.dna_sequence}
-                                </label>
-                            </div>
-                        );
-                    })}
-                </div>
-                <div class="bg-secondary p-8 rounded-2xl mx-4">
-                    <p>Loaded sql:</p>
-                    <p>
-                        id, dates, disease, dna_sequence, similarity, isInfected
-                    </p>
-                    {testResult.map((val) => {
-                        return (
-                            <div style={{ textAlign: "left" }}>
-                                <label>
-                                    {val.id}, {val.dates}, {val.username},{" "}
-                                    {val.disease}, {val.dna_sequence},{" "}
-                                    {val.similarity}%, {val.isInfected}
-                                </label>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-        </div>
+  useEffect(() => {
+    console.log("diseases list use effect run");
+    Axios.get("https://dna-tester.herokuapp.com/api/diseases-list").then(
+      (response) => {
+        setDiseasesList(response.data);
+      }
     );
+  }, []);
+
+  useEffect(() => {
+    console.log("test result use effect run");
+    Axios.get("https://dna-tester.herokuapp.com/api/test-result").then(
+      (response) => {
+        setTestResult(response.data);
+      }
+    );
+  }, []);
+
+  const updateDiseasesList = (diseaseName, DNASequence) => {
+    setDiseasesList([
+      ...diseasesList,
+      {
+        id: diseasesList.at(-1).id + 1,
+        disease_name: diseaseName,
+        dna_sequence: DNASequence,
+      },
+    ]);
+  };
+
+  const updateTestResult = (
+    _dates,
+    _username,
+    _disease,
+    _dna_sequence,
+    _similarity,
+    _isInfected
+  ) => {
+    setTestResult([
+      ...testResult,
+      {
+        id: testResult.at(-1).id + 1,
+        dates: _dates,
+        username: _username,
+        disease: _disease,
+        dna_sequence: _dna_sequence,
+        similarity: _similarity,
+        isInfected: _isInfected,
+      },
+    ]);
+  };
+
+  return (
+    <div class="bg-primary h-screen">
+      <div class="p-14 flex justify-center">
+        <AddDisease items={diseasesList} onUpdate={updateDiseasesList} />
+        <TestDNA items={testResult} onUpdate={updateTestResult}/>
+        <FindResult items={testResult} />
+      </div>
+      <MagicButton diseasesList={diseasesList} testResult={testResult} />
+    </div>
+  );
 }
 
 export default App;

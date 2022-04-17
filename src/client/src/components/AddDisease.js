@@ -36,14 +36,15 @@ const AddDisease = (props) => {
                     dna_sequence: DNASequence,
                 }
             ).then(() => {
+                props.onUpdate(diseaseName, DNASequence)
                 alert("Insert Success");
+                setDiseaseName("");
+                setDNASequence("");
             });
         } else {
             alert("Invalid DNA Sequence");
         }
 
-        setDiseaseName("");
-        setDNASequence("");
     };
 
     const submitDiseaseFromFile = () => {
@@ -56,6 +57,7 @@ const AddDisease = (props) => {
                     dna_sequence: fileContent,
                 }
             ).then(() => {
+                props.onUpdate(diseaseName, DNASequence)
                 alert("Insert Success");
                 setDiseaseName("");
                 setDNASequence("");

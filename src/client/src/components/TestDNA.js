@@ -58,7 +58,10 @@ const TestDNA = (props) => {
                 isInfected: isInfected,
                 username: enteredUsername,
             }).then(() => {
+                props.onUpdate(datetime, enteredDisease, fileContent, similarity, isInfected, enteredUsername)
                 alert("Insert Success");
+                setEnteredDisease("");
+                setEnteredUsername("");
             });
         } else {
             alert("Invalid DNA Sequence");
@@ -77,6 +80,7 @@ const TestDNA = (props) => {
                 isInfected: isInfected,
                 username: enteredUsername,
             }).then(() => {
+                props.onUpdate(datetime, enteredDisease, fileContent, similarity, isInfected, enteredUsername)
                 alert("Insert Success");
                 setEnteredDisease("");
                 setEnteredUsername("");
