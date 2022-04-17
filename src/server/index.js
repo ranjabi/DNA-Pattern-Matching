@@ -87,7 +87,7 @@ const insertTestResult = (req, res) => {
 
     // const disease_sequence = getDiseaseDNASequence(disease);
     // dummy test: diesease strestubes, dna "ACC"
-    const disease_sequence = "ACCG";
+    const disease_sequence = "ACC";
     const isInfected = sm.isInfected(dna_sequence, disease_sequence);
     console.log(disease_sequence);
     console.log(isInfected);
