@@ -73,7 +73,7 @@ const insertTestResult = (req, res) => {
     const dna_sequence = req.body.dna_sequence;
     const similarity = req.body.similarity;
     // const isInfected = req.body.isInfected;
-    const isInfected = 2;
+    const isInfected = 3;
     const username = req.body.username;
     pool.query(
         "INSERT INTO test_result (dates, username, disease, dna_sequence, similarity, isInfected) VALUES ($1, $2, $3, $4, $5, $6)",
