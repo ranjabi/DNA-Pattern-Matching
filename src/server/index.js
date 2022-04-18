@@ -44,16 +44,33 @@ const getDiseasesList = (req, res) => {
     });
 };
 
-const getDiseaseDNASequence = (req, res) => {
-    disease_name = "strestubes";
-    pool.query(
-        "SELECT dna_sequence FROM diseases WHERE disease_name = $1", [disease_name], (err, result) => {
-            if (err) {
-                throw err;
-            }
-            res.status(200).json(result.rows);
-    });
-};
+// const getDiseaseDNASequence = (req, res) => {
+//     disease_name = "strestubes";
+//     pool.query(
+//         "SELECT dna_sequence FROM diseases WHERE disease_name = $1", [disease_name], (err, result) => {
+//             if (err) {
+//                 throw err;
+//             }
+//             res.status(200).json(result.rows);
+//     });
+// };
+
+async function selectFrom(data, table, condition) {
+    try {
+      const res = await pool.query(
+        `SELECT ${data} FROM ${table} ${condition}`
+      );
+      return res.rows[0][data];
+    } catch (err) {
+      return err.stack;
+    }
+}
+
+async function getDiseaseDNASequence (disease_name) {
+    var result = await selectFrom('dna_sequence','diseases', `WHERE disease_name = '${disease_name}'`);
+    console.log(result);
+    return result;
+ }
 
 const insertDiseasesList = (req, res) => {
     const disease_name = req.body.disease_name;
@@ -85,9 +102,10 @@ const insertTestResult = (req, res) => {
     const dna_sequence = req.body.dna_sequence;
     const username = req.body.username;
 
-    // const disease_sequence = getDiseaseDNASequence(disease);
-    // dummy test: diesease strestubes, dna "ACC"
-    const disease_sequence = "ACC";
+    // // const disease_sequence = getDiseaseDNASequence(disease);
+    // // dummy test: diesease strestubes, dna "ACC"
+    // const disease_sequence = "ACC";
+    const disease_sequence = getDiseaseDNASequence(disease);
     const isInfected = sm.isInfected(dna_sequence, disease_sequence);
     console.log(disease_sequence);
     console.log(isInfected);
