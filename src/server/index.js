@@ -55,23 +55,6 @@ const getDiseasesList = (req, res) => {
 //     });
 // };
 
-async function selectFrom(data, table, condition) {
-    try {
-      const res = await pool.query(
-        `SELECT ${data} FROM ${table} ${condition}`
-      );
-      return res.rows[0][data];
-    } catch (err) {
-      return err.stack;
-    }
-}
-
-async function getDiseaseDNASequence (disease_name) {
-    var result = await selectFrom('dna_sequence','diseases', `WHERE disease_name = '${disease_name}'`);
-    console.log(result);
-    return result;
- }
-
 const insertDiseasesList = (req, res) => {
     const disease_name = req.body.disease_name;
     const dna_sequence = req.body.dna_sequence;
@@ -104,8 +87,8 @@ const insertTestResult = (req, res) => {
 
     // // const disease_sequence = getDiseaseDNASequence(disease);
     // // dummy test: diesease strestubes, dna "ACC"
-    // const disease_sequence = "ACC";
-    const disease_sequence = getDiseaseDNASequence(disease);
+    const disease_sequence = "ACC";
+    // const disease_sequence = getDiseaseDNASequence(disease);
     const isInfected = sm.isInfected(dna_sequence, disease_sequence);
     console.log(disease_sequence);
     console.log(isInfected);
