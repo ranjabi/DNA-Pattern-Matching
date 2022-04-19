@@ -115,8 +115,6 @@ app.get("/api/diseases-list", getDiseasesList);
 app.post("/api/insert-diseases-list", insertDiseasesList);
 app.get("/api/test-result", getTestResult);
 app.post("/api/insert-test-result", insertTestResult);
-app.get("/api/diseases-dna-sequence", getDiseaseDNASequence);
-
 app.get("/", (req, res) => {
     res.sendFile("./index.html", { root: __dirname });
 });
