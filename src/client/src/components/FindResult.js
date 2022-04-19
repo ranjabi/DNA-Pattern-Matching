@@ -19,13 +19,13 @@ const FindResult = (props) => {
         // dd/mm/yyyy or dd-mm-yyyy
         const reTgl1 = new RegExp(/^\d{1,2}(\/|-)\d{1,2}(\/|-)\d{4}$/); 
         // dd month yyyy
-        const reTgl2 = new RegExp(/^\d{1,2}\s((j|J)an(?:uary)?|(f|F)eb(?:ruary)?|(m|M)ar(?:ch)?|(a|A)pr(?:il)?|(May|may)|(j|J)un(?:e)?|(j|J)ul(?:y)?|(a|A)ug(?:ust)?|(s|S)ep(?:tember)?|(o|O)ct(?:ober)?|(n|N)ov(?:ember)?|(d|D)ec(?:ember)?)+\s(\d{4})$/) 
+        const reTgl2 = new RegExp(/^\d{1,2}\s((j|J)an(?:uary)?|(f|F)eb(?:ruary)?|(m|M)ar(?:ch)?|(a|A)pr(?:il)?|(May|may)|(j|J)un(?:e)?|(j|J)ul(?:y)?|(a|A)ug(?:ust)?|(s|S)ep(?:t)?(?:tember)?|(o|O)ct(?:ober)?|(n|N)ov(?:ember)?|(d|D)ec(?:ember)?)+\s(\d{4})$/) 
         // dd/mm/yyyy namaPenyakit or dd-mm-yyyy namaPenyakit
-        const reTglNama1 = new RegExp(/^\d{1,2}(\/|-)\d{1,2}(\/|-)\d{4}\s[A-Za-z]+$/) 
+        const reTglNama1 = new RegExp(/^\d{1,2}(\/|-)\d{1,2}(\/|-)\d{4}\s[\s\S]+$/) 
         // dd month yyyy namaPenyakit
-        const reTglNama2 = new RegExp(/^\d{1,2}\s((j|J)an(?:uary)?|(f|F)eb(?:ruary)?|(m|M)ar(?:ch)?|(a|A)pr(?:il)?|(May|may)|(j|J)un(?:e)?|(j|J)ul(?:y)?|(a|A)ug(?:ust)?|(s|S)ep(?:tember)?|(o|O)ct(?:ober)?|(n|N)ov(?:ember)?|(d|D)ec(?:ember)?)+\s(\d{4})\s[A-Za-z]+$/) 
+        const reTglNama2 = new RegExp(/^\d{1,2}\s((j|J)an(?:uary)?|(f|F)eb(?:ruary)?|(m|M)ar(?:ch)?|(a|A)pr(?:il)?|(May|may)|(j|J)un(?:e)?|(j|J)ul(?:y)?|(a|A)ug(?:ust)?|(s|S)ep(?:t)?(?:tember)?|(o|O)ct(?:ober)?|(n|N)ov(?:ember)?|(d|D)ec(?:ember)?)+\s(\d{4})\s[\s\S]+$/) 
         // namaPenyakit
-        const reNama = new RegExp(/^[A-Za-z]+$/) 
+        const reNama = new RegExp(/^[\s\S]+$/) 
         /* 0 : invalid
            1 : valid, input tanggal
            2 : valid, input tanggal namaPenyakit
@@ -44,12 +44,12 @@ const FindResult = (props) => {
             if (reTglNama1.test(str)) {
                 var elmt = str.split(/\s/);
                 setDateSearch(elmt[0].split(/-|\//).reverse().join("-"));
-                setNameSearch(elmt[1]);
+                setNameSearch(elmt.slice(1, elmt.length).join(" "));
             } else {
                 var elmt = str.split(/\s/);
                 elmt[1] = convertMonth(elmt[1]);
                 setDateSearch(elmt.slice(0,3).reverse().join("-"));
-                setNameSearch(elmt[3]);
+                setNameSearch(elmt.slice(3, elmt.length).join(" "));
             }
             console.log("date " + dateSearch);
             console.log("name " + nameSearch);
@@ -80,7 +80,7 @@ const FindResult = (props) => {
             return "07";
         } else if (month.match(/(a|A)ug(?:ust)?/)) {
             return "08";
-        } else if (month.match(/(s|S)ep(?:tember)?/)) {
+        } else if (month.match(/(s|S)ep(?:t)?(?:tember)?/)) {
             return "09";
         } else if (month.match(/(o|O)ct(?:ober)?/)) {
             return "10";
