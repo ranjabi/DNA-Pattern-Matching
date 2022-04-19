@@ -32,9 +32,13 @@ const FindResult = (props) => {
            3 : valid, input namaPenyakit */
         if (reTgl1.test(str) || reTgl2.test(str)) {
             if (reTgl1.test(str)) {
-                setDateSearch(str.split(/-|\//).reverse().join("-"));
+                var date = str.split(/-|\//);
+                date[0] = date[0].padStart(2, '0');
+                date[1] = date[1].padStart(2, '0');
+                setDateSearch(date.reverse().join("-"));
             } else {
                 var date = str.split(/\s/);
+                date[0] = date[0].padStart(2, '0');
                 date[1] = convertMonth(date[1]);
                 setDateSearch(date.reverse().join("-"));
             }
@@ -43,10 +47,14 @@ const FindResult = (props) => {
         } else if (reTglNama1.test(str) || reTglNama2.test(str)) {
             if (reTglNama1.test(str)) {
                 var elmt = str.split(/\s/);
-                setDateSearch(elmt[0].split(/-|\//).reverse().join("-"));
+                var date = elmt[0].split(/-|\//);
+                date[0] = date[0].padStart(2, '0');
+                date[1] = date[1].padStart(2, '0');
+                setDateSearch(date.reverse().join("-"));
                 setNameSearch(elmt.slice(1, elmt.length).join(" "));
             } else {
                 var elmt = str.split(/\s/);
+                elmt[0] = elmt[0].padStart(2, '0');
                 elmt[1] = convertMonth(elmt[1]);
                 setDateSearch(elmt.slice(0,3).reverse().join("-"));
                 setNameSearch(elmt.slice(3, elmt.length).join(" "));
