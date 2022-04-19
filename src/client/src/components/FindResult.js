@@ -32,23 +32,23 @@ const FindResult = (props) => {
            3 : valid, input namaPenyakit */
         if (reTgl1.test(str) || reTgl2.test(str)) {
             if (reTgl1.test(str)) {
-                setDateSearch(str.replace(/\//g, "-"));
+                setDateSearch(str.split(/-|\//).reverse().join("-"));
             } else {
                 var date = str.split(/\s/);
                 date[1] = convertMonth(date[1]);
-                setDateSearch(date.join("-"));
+                setDateSearch(date.reverse().join("-"));
             }
             console.log("date " + dateSearch);
             return 1;
         } else if (reTglNama1.test(str) || reTglNama2.test(str)) {
             if (reTglNama1.test(str)) {
                 var elmt = str.split(/\s/);
-                setDateSearch(elmt[0].replace(/\//g, "-"));
+                setDateSearch(elmt[0].split(/-|\//).reverse().join("-"));
                 setNameSearch(elmt[1]);
             } else {
                 var elmt = str.split(/\s/);
                 elmt[1] = convertMonth(elmt[1]);
-                setDateSearch(elmt.slice(0,3).join("-"));
+                setDateSearch(elmt.slice(0,3).reverse().join("-"));
                 setNameSearch(elmt[3]);
             }
             console.log("date " + dateSearch);
