@@ -55,6 +55,13 @@ const getDiseasesList = (req, res) => {
 //     });
 // };
 
+async function getDiseaseDNASequence(disease_name) {
+    const result = await client.query(
+        "SELECT dna_sequence FROM diseases WHERE disease_name = $1", [disease_name]
+    );
+    return result.rows[0]["dna_sequence"];
+}
+
 const insertDiseasesList = (req, res) => {
     const disease_name = req.body.disease_name;
     const dna_sequence = req.body.dna_sequence;
@@ -79,7 +86,7 @@ const getTestResult = (req, res) => {
     });
 };
 
-const insertTestResult = (req, res) => {
+const insertTestResult = async (req, res) => {
     const dates = req.body.dates;
     const disease = req.body.disease;
     const dna_sequence = req.body.dna_sequence;
@@ -87,10 +94,11 @@ const insertTestResult = (req, res) => {
 
     // // const disease_sequence = getDiseaseDNASequence(disease);
     // // dummy test: diesease strestubes, dna "ACC"
-    const disease_sequence = "ACC";
+    // const disease_sequence = "ACC";
     // const disease_sequence = getDiseaseDNASequence(disease);
+    const disease_sequence = await getDiseaseDNASequence(disease);
+    console.log("-------- disease dna sequence: " + disease_sequence);
     const isInfected = sm.isInfected(dna_sequence, disease_sequence);
-    console.log(disease_sequence);
     console.log(isInfected);
 
     const similarity = lcs.rateLCS(dna_sequence, disease_sequence);
