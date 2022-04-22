@@ -56,7 +56,7 @@ const getDiseasesList = (req, res) => {
 // };
 
 async function getDiseaseDNASequence(disease_name) {
-    const result = await client.query(
+    const result = await pool.query(
         "SELECT dna_sequence FROM diseases WHERE disease_name = $1", [disease_name]
     );
     return result.rows[0]["dna_sequence"];
