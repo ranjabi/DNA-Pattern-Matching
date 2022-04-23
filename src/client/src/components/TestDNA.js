@@ -1,14 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import Axios from "axios";
 
 const TestDNA = (props) => {
     const [enteredDisease, setEnteredDisease] = useState("");
     const [enteredUsername, setEnteredUsername] = useState("");
     const [enteredDNASequence, setEnteredDNASequence] = useState("");
-    const [similarity, setSimilarity] = useState("89");
+    const [similarity, setSimilarity] = useState(0);
     const [isInfected, setIsInfected] = useState(0);
-    const [date, setDate] = useState("2022/04/13");
+    const [date, setDate] = useState("");
     const [fileContent, setFileContent] = useState("");
+
+    const getSimilarity = async () => {
+        return await Axios.get("https://dna-tester.herokuapp.com/api/test-result").then(
+          (response) => {
+              if (response.data.length !== 0) {
+                  return response.data.at(-1).similarity;
+              }
+          }
+        );
+      }
 
     var dt = new Date();
     const datetime = (
@@ -36,33 +46,26 @@ const TestDNA = (props) => {
         setEnteredUsername(event.target.value);
     };
 
-    const similarityChangeHandler = (event) => {
-        setSimilarity(event.target.value);
-    };
-
-    const isInfectedChangeHandler = (event) => {
-        setIsInfected(event.target.value);
-    };
-
     const DNASequenceChangeHandler = (event) => {
         setEnteredDNASequence(event.target.value);
     };
 
-    const submitTestResult = () => {
+    const submitTestResult = async () => {
         if (isValidDNASequence(enteredDNASequence)) {
-            Axios.post("https://dna-tester.herokuapp.com/api/insert-test-result", {
+            await Axios.post("https://dna-tester.herokuapp.com/api/insert-test-result", {
                 dates: datetime,
                 disease: enteredDisease,
                 dna_sequence: enteredDNASequence,
                 similarity: similarity,
                 isInfected: isInfected,
                 username: enteredUsername,
-            }).then(() => {
-                props.onUpdate(datetime, enteredDisease, fileContent, similarity, isInfected, enteredUsername)
-                alert("Insert Success");
-                setEnteredDisease("");
-                setEnteredUsername("");
             });
+            let similarities = await getSimilarity()
+            console.log("similarities " + similarities)
+            props.onUpdate(datetime, enteredUsername, enteredDisease, enteredDNASequence, similarities, isInfected)
+            alert("Insert Success");
+            setEnteredDisease("");
+            setEnteredUsername("");
         } else {
             alert("Invalid DNA Sequence");
         }
@@ -72,6 +75,7 @@ const TestDNA = (props) => {
 
     const submitTestResultFromFile = () => {
         if (isValidDNASequence(enteredDNASequence)) {
+            console.log("jalan 1")
             Axios.post("https://dna-tester.herokuapp.com/api/insert-test-result", {
                 dates: datetime,
                 disease: enteredDisease,
@@ -80,7 +84,7 @@ const TestDNA = (props) => {
                 isInfected: isInfected,
                 username: enteredUsername,
             }).then(() => {
-                props.onUpdate(datetime, enteredDisease, fileContent, similarity, isInfected, enteredUsername)
+                props.onUpdate(datetime, enteredUsername, enteredDisease, fileContent, similarity, isInfected)
                 alert("Insert Success");
                 setEnteredDisease("");
                 setEnteredUsername("");

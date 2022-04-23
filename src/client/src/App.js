@@ -29,14 +29,24 @@ function App() {
   }, []);
 
   const updateDiseasesList = (diseaseName, DNASequence) => {
-    setDiseasesList([
-      ...diseasesList,
-      {
-        id: diseasesList.at(-1).id + 1,
-        disease_name: diseaseName,
-        dna_sequence: DNASequence,
-      },
-    ]);
+    if (testResult.length === 0) {
+      setDiseasesList([
+        {
+          id: 1,
+          disease_name: diseaseName,
+          dna_sequence: DNASequence,
+        },
+      ]);
+    } else {
+      setDiseasesList([
+        ...diseasesList,
+        {
+          id: diseasesList.at(-1).id + 1,
+          disease_name: diseaseName,
+          dna_sequence: DNASequence,
+        },
+      ]);
+    }
   };
 
   const updateTestResult = (
@@ -47,25 +57,39 @@ function App() {
     _similarity,
     _isInfected
   ) => {
-    setTestResult([
-      ...testResult,
-      {
-        id: testResult.at(-1).id + 1,
-        dates: _dates,
-        username: _username,
-        disease: _disease,
-        dna_sequence: _dna_sequence,
-        similarity: _similarity,
-        isinfected: _isInfected,
-      },
-    ]);
+    if (testResult.length === 0) {
+      setTestResult([
+        {
+          id: 1,
+          dates: _dates,
+          username: _username,
+          disease: _disease,
+          dna_sequence: _dna_sequence,
+          similarity: _similarity,
+          isinfected: _isInfected,
+        },
+      ]);
+    } else {
+      setTestResult([
+        ...testResult,
+        {
+          id: testResult.at(-1).id + 1,
+          dates: _dates,
+          username: _username,
+          disease: _disease,
+          dna_sequence: _dna_sequence,
+          similarity: _similarity,
+          isinfected: _isInfected,
+        },
+      ]);
+    }
   };
 
   return (
     <div class="bg-primary h-screen">
       <div class="p-14 flex justify-center">
         <AddDisease items={diseasesList} onUpdate={updateDiseasesList} />
-        <TestDNA items={testResult} onUpdate={updateTestResult}/>
+        <TestDNA items={testResult} onUpdate={updateTestResult} />
         <FindResult items={testResult} />
       </div>
       <MagicButton diseasesList={diseasesList} testResult={testResult} />

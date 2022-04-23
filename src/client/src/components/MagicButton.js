@@ -36,7 +36,6 @@ const MagicButton = ({diseasesList, testResult}) => {
           <p>Loaded sql:</p>
           <p>id, dates, disease, dna_sequence, similarity, isInfected</p>
           {testResult.map((val) => {
-            console.log(val)
             return (
               <div style={{ textAlign: "left" }} key={val.id}>
                 <label>
