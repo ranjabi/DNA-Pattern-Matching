@@ -134,7 +134,7 @@ const searchTestResult = (req, res) => {
         );
     } else if (searchMethod === 3) {
         pool.query(
-            "SELECT * FROM test_result WHERE disease LIKE $2", [nameSearch+'%'],
+            "SELECT * FROM test_result WHERE disease LIKE $1", [nameSearch+'%'],
             (err, result) => {
                 if (err) {
                     throw err;
