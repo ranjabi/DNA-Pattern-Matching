@@ -89,7 +89,7 @@ function App() {
     <div class="bg-primary h-screen">
       <div class="p-14 flex justify-center">
         <AddDisease items={diseasesList} onUpdate={updateDiseasesList} />
-        <TestDNA items={testResult} onUpdate={updateTestResult} />
+        <TestDNA diseasesList={diseasesList} testResult={testResult} onUpdate={updateTestResult} />
         <FindResult items={testResult} />
       </div>
       <MagicButton diseasesList={diseasesList} testResult={testResult} />
