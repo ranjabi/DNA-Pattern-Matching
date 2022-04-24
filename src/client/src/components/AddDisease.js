@@ -42,7 +42,7 @@ const AddDisease = (props) => {
                 setDNASequence("");
             });
         } else {
-            alert("Invalid DNA Sequence");
+            alert("Invalid DNA Sequence\nDNA Sequence only contains A, G, C, T");
         }
 
     };
@@ -63,7 +63,7 @@ const AddDisease = (props) => {
                 setDNASequence("");
             });
         } else {
-            alert("Invalid DNA Sequence");
+            alert("Invalid DNA Sequence\nDNA Sequence only contains A, G, C, T");
         }
         
     };

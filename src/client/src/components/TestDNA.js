@@ -1,7 +1,7 @@
 import { useState, useEffect, useLayoutEffect } from "react";
 import Axios from "axios";
 
-const TestDNA = (props) => {
+const TestDNA = ({diseasesList, testResult, onUpdate}) => {
     const [enteredDisease, setEnteredDisease] = useState("");
     const [enteredUsername, setEnteredUsername] = useState("");
     const [enteredDNASequence, setEnteredDNASequence] = useState("");
@@ -56,7 +56,11 @@ const TestDNA = (props) => {
     };
 
     const submitTestResult = async () => {
-        if (isValidDNASequence(enteredDNASequence)) {
+        if (!isValidDNASequence(enteredDNASequence)) {
+            alert("Invalid DNA Sequence\nDNA Sequence only contains A, G, C, T");
+        } else if (!isExistDisease(enteredDisease)) {
+            alert("Sorry, disease " + enteredDisease + " does not exist in database :(");
+        } else {
             await Axios.post("https://dna-tester.herokuapp.com/api/insert-test-result", {
                 dates: datetime,
                 disease: enteredDisease,
@@ -68,19 +72,20 @@ const TestDNA = (props) => {
             });
             let similarities = await getSimilarity()
             console.log("similarities " + similarities)
-            props.onUpdate(datetime, enteredUsername, enteredDisease, enteredDNASequence, similarities, isInfected)
+            onUpdate(datetime, enteredUsername, enteredDisease, enteredDNASequence, similarities, isInfected)
             alert("Insert Success");
-            setEnteredDisease("");
-            setEnteredUsername("");
-        } else {
-            alert("Invalid DNA Sequence");
         }
-        setEnteredDisease("");
         setEnteredUsername("");
+        setEnteredDisease("");
+        setEnteredDNASequence("");
     };
 
     const submitTestResultFromFile = () => {
-        if (isValidDNASequence(enteredDNASequence)) {
+        if (!isValidDNASequence(enteredDNASequence)) {
+            alert("Invalid DNA Sequence\nDNA Sequence only contains A, G, C, T");
+        } else if (!isExistDisease(enteredDisease)) {
+            alert("Sorry, disease " + enteredDisease + " does not exist in database :(");
+        } else {
             console.log("jalan 1")
             Axios.post("https://dna-tester.herokuapp.com/api/insert-test-result", {
                 dates: datetime,
@@ -91,20 +96,29 @@ const TestDNA = (props) => {
                 username: enteredUsername,
                 stringMatcher: stringMatcher,
             }).then(() => {
-                props.onUpdate(datetime, enteredUsername, enteredDisease, fileContent, similarity, isInfected)
+                onUpdate(datetime, enteredUsername, enteredDisease, fileContent, similarity, isInfected)
                 alert("Insert Success");
-                setEnteredDisease("");
-                setEnteredUsername("");
             });
-        } else {
-            alert("Invalid DNA Sequence");
         }
+        setEnteredUsername("");
+        setEnteredDisease("");
+        setEnteredDNASequence("");
     };
 
-    var isValidDNASequence = function(str){
+    var isValidDNASequence = function(dnaSequence) {
         const re = new RegExp(/^[ACGT]+$/);
-        return re.test(str);
+        return re.test(dnaSequence);
     }
+
+    const isExistDisease = function(diseaseName) {
+        for (let i = 0; i < diseasesList.length; i++) {
+            if (diseasesList[i].disease_name === diseaseName) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     return (
         <div className="card">
@@ -153,7 +167,6 @@ const TestDNA = (props) => {
                 <p>File Content: {fileContent}</p>
                 <p>Tanggal - Pengguna - Penyakit - Similarity - True/False</p>
                 <p>{datetime} - {enteredUsername} - {enteredDisease} - {similarity} - {isInfected}</p>
-                <p>choosen string matcher : {stringMatcher}</p>
             </div>
         </div>
     );
