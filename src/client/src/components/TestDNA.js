@@ -2,7 +2,7 @@ import { useState, useEffect, useLayoutEffect } from "react";
 import Axios from "axios";
 import HasilTes from "./HasilTes";
 
-const TestDNA = ({diseasesList, testResult, onUpdate}) => {
+const TestDNA = ({ diseasesList, testResult, onUpdate }) => {
     const [enteredDisease, setEnteredDisease] = useState("");
     const [enteredUsername, setEnteredUsername] = useState("");
     const [enteredDNASequence, setEnteredDNASequence] = useState("");
@@ -11,6 +11,7 @@ const TestDNA = ({diseasesList, testResult, onUpdate}) => {
     const [date, setDate] = useState("");
     const [fileContent, setFileContent] = useState("");
     const [stringMatcher, setStringMatcher] = useState(1);
+    const [showTestResult, setShowTestResult] = useState(false);
 
     const getSimilarity = async () => {
         return await Axios.get(
@@ -70,38 +71,45 @@ const TestDNA = ({diseasesList, testResult, onUpdate}) => {
         ) {
             alert("Isi kolom yang masih kosong!");
         } else {
-			if (!isValidDNASequence(enteredDNASequence)) {
-				alert("Invalid DNA Sequence\nDNA Sequence only contains A, G, C, T");
-			} else if (!isExistDisease(enteredDisease)) {
-				alert("Sorry, disease " + enteredDisease + " does not exist in database :(");
-			} else {
-
-				await Axios.post(
-					"https://dna-tester.herokuapp.com/api/insert-test-result",
-					{
-						dates: datetime,
-						disease: enteredDisease,
-						dna_sequence: enteredDNASequence,
-						similarity: similarity,
-						isInfected: isInfected,
-						username: enteredUsername,
-						stringMatcher: stringMatcher,
-					}
-				);
-				const [newSimilarities, newIsInfected] = await getSimilarity();
-				setSimilarity(newSimilarities);
-				setIsInfected(newIsInfected);
-				onUpdate(
-					datetime,
-					enteredUsername,
-					enteredDisease,
-					enteredDNASequence,
-					newSimilarities,
-					newIsInfected
-				);
-				alert("Insert Success");
-			}
+            if (!isValidDNASequence(enteredDNASequence)) {
+                alert(
+                    "Invalid DNA Sequence\nDNA Sequence only contains A, G, C, T"
+                );
+            } else if (!isExistDisease(enteredDisease)) {
+                alert(
+                    "Sorry, disease " +
+                        enteredDisease +
+                        " does not exist in database :("
+                );
+            } else {
+                await Axios.post(
+                    "https://dna-tester.herokuapp.com/api/insert-test-result",
+                    {
+                        dates: datetime,
+                        disease: enteredDisease,
+                        dna_sequence: enteredDNASequence,
+                        similarity: similarity,
+                        isInfected: isInfected,
+                        username: enteredUsername,
+                        stringMatcher: stringMatcher,
+                    }
+                );
+                const [newSimilarities, newIsInfected] = await getSimilarity();
+                setSimilarity(newSimilarities);
+                setIsInfected(newIsInfected);
+                onUpdate(
+                    datetime,
+                    enteredUsername,
+                    enteredDisease,
+                    enteredDNASequence,
+                    newSimilarities,
+                    newIsInfected
+                );
+                setShowTestResult(true);
+                alert("Insert Success");
+            }
         }
+		setEnteredDisease("");
         setEnteredUsername("");
         setEnteredDNASequence("");
     };
@@ -115,57 +123,62 @@ const TestDNA = ({diseasesList, testResult, onUpdate}) => {
         ) {
             alert("Isi kolom yang masih kosong!");
         } else {
-			if (!isValidDNASequence(enteredDNASequence)) {
-				alert("Invalid DNA Sequence\nDNA Sequence only contains A, G, C, T");
-			} else if (!isExistDisease(enteredDisease)) {
-				alert("Sorry, disease " + enteredDisease + " does not exist in database :(");
-			} else {
-
-				await Axios.post(
-					"https://dna-tester.herokuapp.com/api/insert-test-result",
-					{
-						dates: datetime,
-						disease: enteredDisease,
-						dna_sequence: fileContent,
-						similarity: similarity,
-						isInfected: isInfected,
-						username: enteredUsername,
-						stringMatcher: stringMatcher,
-					}
-				);
-				const [newSimilarities, newIsInfected] = await getSimilarity();
-				setSimilarity(newSimilarities);
-				setIsInfected(newIsInfected);
-				onUpdate(
-					datetime,
-					enteredUsername,
-					enteredDisease,
-					fileContent,
-					newSimilarities,
-					newIsInfected
-				);
-				alert("Insert Success");
-			}
+            if (!isValidDNASequence(enteredDNASequence)) {
+                alert(
+                    "Invalid DNA Sequence\nDNA Sequence only contains A, G, C, T"
+                );
+            } else if (!isExistDisease(enteredDisease)) {
+                alert(
+                    "Sorry, disease " +
+                        enteredDisease +
+                        " does not exist in database :("
+                );
+            } else {
+                await Axios.post(
+                    "https://dna-tester.herokuapp.com/api/insert-test-result",
+                    {
+                        dates: datetime,
+                        disease: enteredDisease,
+                        dna_sequence: fileContent,
+                        similarity: similarity,
+                        isInfected: isInfected,
+                        username: enteredUsername,
+                        stringMatcher: stringMatcher,
+                    }
+                );
+                const [newSimilarities, newIsInfected] = await getSimilarity();
+                setSimilarity(newSimilarities);
+                setIsInfected(newIsInfected);
+                onUpdate(
+                    datetime,
+                    enteredUsername,
+                    enteredDisease,
+                    fileContent,
+                    newSimilarities,
+                    newIsInfected
+                );
+				setShowTestResult(true);
+                alert("Insert Success");
+            }
         }
         setEnteredDisease("");
         setEnteredUsername("");
         setEnteredDNASequence("");
     };
 
-    var isValidDNASequence = function(dnaSequence) {
+    var isValidDNASequence = function (dnaSequence) {
         const re = new RegExp(/^[ACGT]+$/);
         return re.test(dnaSequence);
-    }
+    };
 
-    const isExistDisease = function(diseaseName) {
+    const isExistDisease = function (diseaseName) {
         for (let i = 0; i < diseasesList.length; i++) {
             if (diseasesList[i].disease_name === diseaseName) {
                 return true;
             }
         }
         return false;
-    }
-
+    };
 
     return (
         <div className="card">
@@ -204,15 +217,22 @@ const TestDNA = ({diseasesList, testResult, onUpdate}) => {
                     <input type="radio" name="string-matcher" value="2" />
                     <label>Boyer-Moore</label>
                 </div>
-                <button className="bg-tertiary hover:bg-blue-900 my-4 rounded-md w-56 mx-auto h-8" type="submit">Submit using Input</button>
+                <button
+                    className="bg-tertiary hover:bg-blue-900 my-4 rounded-md w-56 mx-auto h-8"
+                    type="submit"
+                >
+                    Submit using Input
+                </button>
             </form>
             {/* <button onClick={submitTestResultFromFile}>
         Submit using File Upload
       </button> */}
             <div>
                 <p>File Content: {fileContent}</p>
+                <p>Hasil Tes</p>
+                <p>Tanggal - Pengguna - Penyakit - Similarity - True/False</p>
             </div>
-            <HasilTes testResult={testResult} />
+            {showTestResult && <HasilTes testResult={testResult} />}
         </div>
     );
 };
