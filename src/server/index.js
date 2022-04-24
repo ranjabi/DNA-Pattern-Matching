@@ -114,7 +114,7 @@ const searchTestResult = (req, res) => {
     const {dateSearch, nameSearch, searchMethod} = search.regexSearchTerm(searchTerm);
     if (searchMethod === 1) {
         pool.query(
-            "SELECT * FROM test_value WHERE dates = $1", [dateSearch],
+            "SELECT * FROM test_result WHERE dates = $1", [dateSearch],
             (err, result) => {
                 if (err) {
                     throw err;
@@ -124,7 +124,7 @@ const searchTestResult = (req, res) => {
         );
     } else if (searchMethod === 2) {
         pool.query(
-            "SELECT * FROM test_value WHERE dates = $1 AND disease LIKE $2", [dateSearch, nameSearch+'%'],
+            "SELECT * FROM test_result WHERE dates = $1 AND disease LIKE $2", [dateSearch, nameSearch+'%'],
             (err, result) => {
                 if (err) {
                     throw err;
@@ -134,7 +134,7 @@ const searchTestResult = (req, res) => {
         );
     } else if (searchMethod === 3) {
         pool.query(
-            "SELECT * FROM test_value WHERE disease LIKE $2", [nameSearch+'%'],
+            "SELECT * FROM test_result WHERE disease LIKE $2", [nameSearch+'%'],
             (err, result) => {
                 if (err) {
                     throw err;
