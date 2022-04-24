@@ -34,7 +34,7 @@ const MagicButton = ({diseasesList, testResult}) => {
         </div>
         <div class="bg-secondary p-8 rounded-2xl mx-4">
           <p>Loaded sql:</p>
-          <p>id, dates, disease, dna_sequence, similarity, isInfected</p>
+          <p>id, dates, username, disease, dna_sequence, similarity, isInfected</p>
           {testResult.map((val) => {
             return (
               <div style={{ textAlign: "left" }} key={val.id}>
