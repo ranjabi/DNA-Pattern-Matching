@@ -5,38 +5,79 @@ exports.regexSearchTerm = function(str) {
     // dd/mm/yyyy or dd-mm-yyyy
     const reTgl1 = new RegExp(/^\d{1,2}(\/|-)\d{1,2}(\/|-)\d{4}$/); 
     // dd month yyyy
-    const reTgl2 = new RegExp(/^\d{1,2}\s((j|J)an(?:uary)?|(f|F)eb(?:ruary)?|(m|M)ar(?:ch)?|(a|A)pr(?:il)?|(May|may)|(j|J)un(?:e)?|(j|J)ul(?:y)?|(a|A)ug(?:ust)?|(s|S)ep(?:t)?(?:tember)?|(o|O)ct(?:ober)?|(n|N)ov(?:ember)?|(d|D)ec(?:ember)?)+\s(\d{4})$/) 
+    const reTgl2 = new RegExp(/^\d{1,2}\s((j|J)an(?:uary)?|(f|F)eb(?:ruary)?|(m|M)ar(?:ch)?|(a|A)pr(?:il)?|(May|may)|(j|J)un(?:e)?|(j|J)ul(?:y)?|(a|A)ug(?:ust)?|(s|S)ep(?:t)?(?:tember)?|(o|O)ct(?:ober)?|(n|N)ov(?:ember)?|(d|D)ec(?:ember)?)+\s(\d{4})$/);
+    // yyyy/mm/dd or yyyy-mm-dd
+    const reTgl3 = new RegExp(/^\d{4}(\/|-)\d{1,2}(\/|-)\d{1,2}$/);
+    // yyyy month dd
+    const reTgl4 = new RegExp(/^\d{4}\s((j|J)an(?:uary)?|(f|F)eb(?:ruary)?|(m|M)ar(?:ch)?|(a|A)pr(?:il)?|(May|may)|(j|J)un(?:e)?|(j|J)ul(?:y)?|(a|A)ug(?:ust)?|(s|S)ep(?:t)?(?:tember)?|(o|O)ct(?:ober)?|(n|N)ov(?:ember)?|(d|D)ec(?:ember)?)+\s\d{1,2}$/);
     // dd/mm/yyyy namaPenyakit or dd-mm-yyyy namaPenyakit
     const reTglNama1 = new RegExp(/^\d{1,2}(\/|-)\d{1,2}(\/|-)\d{4}\s[\s\S]+$/) 
     // dd month yyyy namaPenyakit
-    const reTglNama2 = new RegExp(/^\d{1,2}\s((j|J)an(?:uary)?|(f|F)eb(?:ruary)?|(m|M)ar(?:ch)?|(a|A)pr(?:il)?|(May|may)|(j|J)un(?:e)?|(j|J)ul(?:y)?|(a|A)ug(?:ust)?|(s|S)ep(?:t)?(?:tember)?|(o|O)ct(?:ober)?|(n|N)ov(?:ember)?|(d|D)ec(?:ember)?)+\s(\d{4})\s[\s\S]+$/) 
+    const reTglNama2 = new RegExp(/^\d{1,2}\s((j|J)an(?:uary)?|(f|F)eb(?:ruary)?|(m|M)ar(?:ch)?|(a|A)pr(?:il)?|(May|may)|(j|J)un(?:e)?|(j|J)ul(?:y)?|(a|A)ug(?:ust)?|(s|S)ep(?:t)?(?:tember)?|(o|O)ct(?:ober)?|(n|N)ov(?:ember)?|(d|D)ec(?:ember)?)+\s(\d{4})\s[\s\S]+$/);
+    // yyyy/mm/dd namaPenyakit or yyyy-mm-dd namaPenyakit
+    const reTglNama3 = new RegExp(/^\d{4}(\/|-)\d{1,2}(\/|-)\d{1,2}\s[\s\S]+$/);
+    // yyyy month dd namaPenyakit
+    const reTglNama4 = new RegExp(/^\d{4}\s((j|J)an(?:uary)?|(f|F)eb(?:ruary)?|(m|M)ar(?:ch)?|(a|A)pr(?:il)?|(May|may)|(j|J)un(?:e)?|(j|J)ul(?:y)?|(a|A)ug(?:ust)?|(s|S)ep(?:t)?(?:tember)?|(o|O)ct(?:ober)?|(n|N)ov(?:ember)?|(d|D)ec(?:ember)?)+\s\d{1,2}\s[\s\S]+$/);
+    // namaPenyakit dd/mm/yyyy or namaPenyakit dd-mm-yyyy namaPenyakit
+    const reNamaTgl1 = new RegExp(/^[\s\S]+\s\d{1,2}(\/|-)\d{1,2}(\/|-)\d{4}$/);
+    // namaPenyakit dd month yyyy
+    const reNamaTgl2 = new RegExp(/^[\s\S]+\s\d{1,2}\s((j|J)an(?:uary)?|(f|F)eb(?:ruary)?|(m|M)ar(?:ch)?|(a|A)pr(?:il)?|(May|may)|(j|J)un(?:e)?|(j|J)ul(?:y)?|(a|A)ug(?:ust)?|(s|S)ep(?:t)?(?:tember)?|(o|O)ct(?:ober)?|(n|N)ov(?:ember)?|(d|D)ec(?:ember)?)+\s(\d{4})$/);
+    // namaPenyakit yyyy/mm/dd or namaPenyakit yyyy-mm-dd
+    const reNamaTgl3 = new RegExp(/^[\s\S]+\s\d{4}(\/|-)\d{1,2}(\/|-)\d{1,2}$/);
+    // namaPenyakit yyyy month dd
+    const reNamaTgl4 = new RegExp(/^[\s\S]+\s\d{4}\s((j|J)an(?:uary)?|(f|F)eb(?:ruary)?|(m|M)ar(?:ch)?|(a|A)pr(?:il)?|(May|may)|(j|J)un(?:e)?|(j|J)ul(?:y)?|(a|A)ug(?:ust)?|(s|S)ep(?:t)?(?:tember)?|(o|O)ct(?:ober)?|(n|N)ov(?:ember)?|(d|D)ec(?:ember)?)+\s\d{1,2}$/);
     // namaPenyakit
     const reNama = new RegExp(/^[\s\S]+$/) 
     /* 0 : invalid
        1 : valid, input tanggal
-       2 : valid, input tanggal namaPenyakit
+       2 : valid, input tanggal namaPenyakit or namaPenyakit tanggal
        3 : valid, input namaPenyakit */
-    if (reTgl1.test(str) || reTgl2.test(str)) {
+    if (reTgl1.test(str) || reTgl2.test(str) || reTgl3.test(str) || reTgl4.test(str)) {
         var date = str.split(/-|\/|\s/);
-        date[0] = date[0].padStart(2, '0');
         date[1] = convertMonth(date[1]);
-        dateSearch = date.join(" ");
+        if (reTgl1.test(str) || reTgl2.test(str)) {
+            date[0] = date[0].padStart(2, '0');
+            dateSearch = date.join(" ");
+        } else {
+            date[2] = date[2].padStart(2, '0');
+            dateSearch = date.reverse().join(" ");
+        }
         console.log("date " + dateSearch);
         searchMethod = 1;
-    } else if (reTglNama1.test(str) || reTglNama2.test(str)) {
-        if (reTglNama1.test(str)) {
-            var elmt = str.split(/\s/);
-            var date = elmt[0].split(/-|\//);
-            date[0] = date[0].padStart(2, '0');
+    } else if (reTglNama1.test(str) || reTglNama2.test(str) || reTglNama3.test(str) || reTglNama4.test(str) || reNamaTgl1.test(str) || reNamaTgl2.test(str) || reNamaTgl3.test(str) || reNamaTgl4.test(str)) {
+        var elmt = str.split(/\s/);
+        if (reTglNama1.test(str) || reTglNama3.test(str) || reNamaTgl1.test(str) || reNamaTgl3.test(str)) {
+            if (reTglNama1.test(str) || reTglNama3.test(str)) {
+                var date = elmt[0].split(/-|\//);
+                nameSearch = elmt.slice(1, elmt.length).join(" ");
+            } else {
+                var date = elmt[elmt.length-1].split(/-|\//);
+                nameSearch = elmt.slice(0, elmt.length-1).join(" ");
+            }
             date[1] = convertMonth(date[1]);
-            dateSearch = date.join(" ");
-            nameSearch = elmt.slice(1, elmt.length).join(" ");
+            if (reTglNama1.test(str) || reNamaTgl1.test(str)) {
+                date[0] = date[0].padStart(2, '0');
+                dateSearch = date.join(" ");
+            } else {
+                date[2] = date[2].padStart(2, '0');
+                dateSearch = date.reverse().join(" ");
+            }
         } else {
-            var elmt = str.split(/\s/);
-            elmt[0] = elmt[0].padStart(2, '0');
-            elmt[1] = convertMonth(elmt[1]);
-            dateSearch = elmt.slice(0,3).join(" ");
-            nameSearch = elmt.slice(3, elmt.length).join(" ");
+            if (reTglNama2.test(str) || reTglNama4.test(str)) {
+                var x = 0;
+                nameSearch = elmt.slice(3, elmt.length).join(" ");
+            } else {
+                var x = elmt.length - 3;
+                nameSearch = elmt.slice(0, elmt.length-3).join(" ");
+            }
+            elmt[1+x] = convertMonth(elmt[1+x]);
+            if (reTglNama2.test(str) || reNamaTgl2.test(str)) {
+                elmt[0+x] = elmt[0+x].padStart(2, '0');
+                dateSearch = elmt.slice(0+x,3+x).join(" ");
+            } else {
+                elmt[2+x] = elmt[2+x].padStart(2, '0');
+                dateSearch = elmt.slice(0+x,3+x).reverse().join(" ");
+            }
         }
         console.log("date " + dateSearch);
         console.log("name " + nameSearch);
