@@ -38,14 +38,14 @@ const AddDisease = ({ diseasesList, onUpdate }) => {
 
     const submitDisease = (event) => {
         event.preventDefault();
-        let isFromFile = false;
-        let dna_sequence_media = () => {
-            if (isFromFile) {
-                return fileContent;
-            } else {
-                return DNASequence;
-            }
-        };
+        // const isFromFile = false;
+        // const dna_sequence_media = () => {
+        //     if (isFromFile) {
+        //         return fileContent;
+        //     } else {
+        //         return DNASequence;
+        //     }
+        // };
         if (diseaseName === "" || DNASequence == "") {
             alert("Isi form yang masih kosong!");
         } else {
@@ -57,7 +57,7 @@ const AddDisease = ({ diseasesList, onUpdate }) => {
                         "https://dna-tester.herokuapp.com/api/insert-diseases-list",
                         {
                             disease_name: diseaseName,
-                            dna_sequence: dna_sequence_media,
+                            dna_sequence: DNASequence,
                         }
                     ).then(() => {
                         onUpdate(diseaseName, DNASequence);
