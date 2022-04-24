@@ -44,17 +44,6 @@ const getDiseasesList = (req, res) => {
     });
 };
 
-// const getDiseaseDNASequence = (req, res) => {
-//     disease_name = "strestubes";
-//     pool.query(
-//         "SELECT dna_sequence FROM diseases WHERE disease_name = $1", [disease_name], (err, result) => {
-//             if (err) {
-//                 throw err;
-//             }
-//             res.status(200).json(result.rows);
-//     });
-// };
-
 async function getDiseaseDNASequence(disease_name) {
     const result = await pool.query(
         "SELECT dna_sequence FROM diseases WHERE disease_name = $1", [disease_name]
@@ -92,19 +81,19 @@ const insertTestResult = async (req, res) => {
     const dna_sequence = req.body.dna_sequence;
     const username = req.body.username;
 
-    // // const disease_sequence = getDiseaseDNASequence(disease);
-    // // dummy test: diesease strestubes, dna "ACC"
-    // const disease_sequence = "ACC";
-    // const disease_sequence = getDiseaseDNASequence(disease);
     const disease_sequence = await getDiseaseDNASequence(disease);
     console.log("-------- disease dna sequence: " + disease_sequence);
-    const isInfected = sm.isInfected(dna_sequence, disease_sequence);
+
+    const stringMatcher = req.body.stringMatcher;
+    console.log("-------- stringMatcher: " + stringMatcher);
+    const isInfected = sm.isInfected(dna_sequence, disease_sequence, stringMatcher);
     console.log(isInfected);
 
     const similarity = lcs.rateLCS(dna_sequence, disease_sequence);
     console.log(similarity);
 
     console.log(isInfected);
+
 
     pool.query(
         "INSERT INTO test_result (dates, username, disease, dna_sequence, similarity, isInfected) VALUES ($1, $2, $3, $4, $5, $6)",

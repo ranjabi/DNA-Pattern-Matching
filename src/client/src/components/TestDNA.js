@@ -9,6 +9,7 @@ const TestDNA = (props) => {
     const [isInfected, setIsInfected] = useState(0);
     const [date, setDate] = useState("");
     const [fileContent, setFileContent] = useState("");
+    const [stringMatcher, setStringMatcher] = useState(1);
 
     const getSimilarity = async () => {
         return await Axios.get("https://dna-tester.herokuapp.com/api/test-result").then(
@@ -50,6 +51,10 @@ const TestDNA = (props) => {
         setEnteredDNASequence(event.target.value);
     };
 
+    const stringMatcherChangeHandler = (event) => {
+        setStringMatcher(event.target.value);
+    };
+
     const submitTestResult = async () => {
         if (isValidDNASequence(enteredDNASequence)) {
             await Axios.post("https://dna-tester.herokuapp.com/api/insert-test-result", {
@@ -59,6 +64,7 @@ const TestDNA = (props) => {
                 similarity: similarity,
                 isInfected: isInfected,
                 username: enteredUsername,
+                stringMatcher: stringMatcher,
             });
             let similarities = await getSimilarity()
             console.log("similarities " + similarities)
@@ -83,6 +89,7 @@ const TestDNA = (props) => {
                 similarity: similarity,
                 isInfected: isInfected,
                 username: enteredUsername,
+                stringMatcher: stringMatcher,
             }).then(() => {
                 props.onUpdate(datetime, enteredUsername, enteredDisease, fileContent, similarity, isInfected)
                 alert("Insert Success");
@@ -121,6 +128,21 @@ const TestDNA = (props) => {
                 name="predicted-disease"
                 onChange={diseaseChangeHandler}
             />
+            <div onChange={stringMatcherChangeHandler}>
+                <label>Choose String Matching Algorithm:</label> <br />
+                <input
+                    type="radio"
+                    name="string-matcher"
+                    value="1"
+                />
+                <label>Knuth-Morris-Pratt</label> <br />
+                <input
+                    type="radio"
+                    name="string-matcher"
+                    value="2"
+                />
+                <label>Boyer-Moore</label>
+            </div>
             <button onClick={submitTestResult}>
                 Submit using Input
             </button>
@@ -131,6 +153,7 @@ const TestDNA = (props) => {
                 <p>File Content: {fileContent}</p>
                 <p>Tanggal - Pengguna - Penyakit - Similarity - True/False</p>
                 <p>{datetime} - {enteredUsername} - {enteredDisease} - {similarity} - {isInfected}</p>
+                <p>choosen string matcher : {stringMatcher}</p>
             </div>
         </div>
     );

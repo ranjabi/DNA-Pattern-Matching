@@ -1,7 +1,31 @@
 // text : sequence DNA pengguna
 // pattern : sequence DNA penyakit
 
-exports.kmpMatch = function (text, pattern) {
+var lcs = require('./LCSAlgorithm')
+
+exports.isInfected = function (text, pattern, stringMatcher) {
+    var isInfected;
+    if (stringMatcher === 1) {
+        console.log("-------------------- KMP")
+        isInfected = kmpMatch(text, pattern) !== -1 ? 1 : 0;
+    } else {
+        console.log("-------------------- BM")
+        isInfected = bmMatch(text, pattern) !== -1 ? 1 : 0;
+    }
+
+    if (isInfected === 1) {
+        return 1;
+    } else {
+        const similarity = lcs.rateLCS(text, pattern);
+        if (similarity > 0.8) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+};
+
+const kmpMatch = (text, pattern) => {
     let n = text.length;
     let m = pattern.length;
 
@@ -26,7 +50,7 @@ exports.kmpMatch = function (text, pattern) {
     return -1;
 };
 
-exports.bmMatch = function (text, pattern) {
+const bmMatch = (text, pattern) => {
     const last = buildLast(pattern);
     let n = text.length;
     let m = pattern.length;
@@ -55,14 +79,6 @@ exports.bmMatch = function (text, pattern) {
     return -1;
 };
 
-exports.isInfected = function (text, pattern) {
-    if (this.kmpMatch(text, pattern) !== -1) {
-        return 1;
-    } else {
-        return 0;
-    }
-};
-
 const computeFail = (pattern) => {
     let m = pattern.length;
     const fail = new Array(m);
@@ -84,7 +100,7 @@ const computeFail = (pattern) => {
     }
     
     return fail;
-}
+};
 
 
 const buildLast = (pattern) => {
@@ -99,4 +115,4 @@ const buildLast = (pattern) => {
 
     return last;
 
-}
+};

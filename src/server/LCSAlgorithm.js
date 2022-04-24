@@ -29,3 +29,15 @@ exports.rateLCS = function (text, pattern) {
     let lcsRate = lcsLength / pattern.length;
     return lcsRate;
 };
+
+
+// const rateLCS = (text, pattern) => {
+//     let lcsLength = lcs(text, pattern);
+//     let lcsRate = lcsLength / pattern.length;
+//     console.log("lcsRate: " + lcsRate);
+//     console.log("pattern.length: " + pattern.length);
+//     console.log("lcsLength: " + lcsLength);
+//     return lcsRate;
+// }
+
+// console.log(rateLCS("GCGCGCGCTCTACG", "ACGACA"));
