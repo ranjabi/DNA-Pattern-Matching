@@ -102,7 +102,6 @@ const TestDNA = ({diseasesList, testResult, onUpdate}) => {
 				alert("Insert Success");
 			}
         }
-        setEnteredDisease("");
         setEnteredUsername("");
         setEnteredDNASequence("");
     };
@@ -165,7 +164,8 @@ const TestDNA = ({diseasesList, testResult, onUpdate}) => {
             }
         }
         return false;
-    };
+    }
+
 
     return (
         <div className="card">

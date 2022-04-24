@@ -41,3 +41,4 @@ exports.rateLCS = function (text, pattern) {
 // }
 
 // console.log(rateLCS("GCGCGCGCTCTACG", "ACGACA"));
+// console.log(rateLCS("AATGACCTAAA", "GACCTTGA"));

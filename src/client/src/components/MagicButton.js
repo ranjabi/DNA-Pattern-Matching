@@ -40,7 +40,7 @@ const MagicButton = ({diseasesList, testResult}) => {
               <div style={{ textAlign: "left" }} key={val.id}>
                 <label>
                   {val.id}, {val.dates}, {val.username}, {val.disease},{" "}
-                  {val.dna_sequence}, {val.similarity}%, {val.isinfected}
+                  {val.dna_sequence}, {val.similarity * 100}%, {val.isinfected}
                 </label>
               </div>
             );
