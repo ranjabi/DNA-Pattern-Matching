@@ -5,6 +5,7 @@ const { application } = require("express");
 const app = express();
 var sm = require('./stringMatching');
 var lcs = require('./LCSAlgorithm')
+var search = require('./regexSearch');
 
 const Pool = require("pg").Pool;
 const pool = new Pool({
@@ -108,6 +109,42 @@ const insertTestResult = async (req, res) => {
     );
 };
 
+const searchTestResult = (req, res) => {
+    const searchTerm = req.query.searchTerm;
+    const {dateSearch, nameSearch, searchMethod} = search.regexSearchTerm(searchTerm);
+    if (searchMethod === 1) {
+        pool.query(
+            "SELECT * FROM test_value WHERE dates = $1", [dateSearch],
+            (err, result) => {
+                if (err) {
+                    throw err;
+                }
+                res.status(200).json(result.rows);
+            }
+        );
+    } else if (searchMethod === 2) {
+        pool.query(
+            "SELECT * FROM test_value WHERE dates = $1 AND disease LIKE $2", [dateSearch, nameSearch+'%'],
+            (err, result) => {
+                if (err) {
+                    throw err;
+                }
+                res.status(200).json(result.rows);
+            }
+        );
+    } else if (searchMethod === 3) {
+        pool.query(
+            "SELECT * FROM test_value WHERE disease LIKE $2", [nameSearch+'%'],
+            (err, result) => {
+                if (err) {
+                    throw err;
+                }
+                res.status(200).json(result.rows);
+            }
+        );
+    }
+}
+
 app.get("/api/diseases-list", getDiseasesList);
 app.post("/api/insert-diseases-list", insertDiseasesList);
 app.get("/api/test-result", getTestResult);
@@ -115,6 +152,7 @@ app.post("/api/insert-test-result", insertTestResult);
 app.get("/", (req, res) => {
     res.sendFile("./index.html", { root: __dirname });
 });
+app.get("/api/search-test-result", searchTestResult);
 
 app.listen(process.env.PORT || PORT, () => {
     console.log("Server is connected");
