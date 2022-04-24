@@ -29,7 +29,7 @@ function App() {
   }, []);
 
   const updateDiseasesList = (diseaseName, DNASequence) => {
-    if (testResult.length === 0) {
+    if (diseasesList.length === 0) {
       setDiseasesList([
         {
           id: 1,
