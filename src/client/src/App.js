@@ -12,7 +12,7 @@ function App() {
 
   useEffect(() => {
     console.log("diseases list use effect run");
-    Axios.get("https://dna-tester.herokuapp.com/api/diseases-list").then(
+    Axios.get("http://localhost:3001/api/diseases-list").then(
       (response) => {
         setDiseasesList(response.data);
       }
@@ -21,7 +21,7 @@ function App() {
 
   useEffect(() => {
     console.log("test result use effect run");
-    Axios.get("https://dna-tester.herokuapp.com/api/test-result").then(
+    Axios.get("http://localhost:3001/api/test-result").then(
       (response) => {
         setTestResult(response.data);
       }

@@ -54,7 +54,7 @@ const AddDisease = ({ diseasesList, onUpdate }) => {
             } else {
                 if (isValidDNASequence(DNASequence)) {
                     Axios.post(
-                        "https://dna-tester.herokuapp.com/api/insert-diseases-list",
+                        "http://localhost:3001/api/insert-diseases-list",
                         {
                             disease_name: diseaseName,
                             dna_sequence: dna_sequence_media,

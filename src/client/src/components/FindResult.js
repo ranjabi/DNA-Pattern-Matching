@@ -8,7 +8,7 @@ const FindResult = (props) => {
     const searchTermChangeHandler = (event) => {
         setSearchTerm(event.target.value);
         if (searchTerm.length > 0) {
-            Axios.get("https://dna-tester.herokuapp.com/api/search-test-result", {
+            Axios.get("http://localhost:3001/api/search-test-result", {
                 params: {
                     searchTerm: searchTerm
                 }

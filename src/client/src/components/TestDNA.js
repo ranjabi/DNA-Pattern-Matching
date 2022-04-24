@@ -15,7 +15,7 @@ const TestDNA = ({ diseasesList, testResult, onUpdate }) => {
 
     const getSimilarity = async () => {
         return await Axios.get(
-            "https://dna-tester.herokuapp.com/api/test-result"
+            "http://localhost:3001/api/test-result"
         ).then((response) => {
             if (response.data.length !== 0) {
                 return [
@@ -83,7 +83,7 @@ const TestDNA = ({ diseasesList, testResult, onUpdate }) => {
                 );
             } else {
                 await Axios.post(
-                    "https://dna-tester.herokuapp.com/api/insert-test-result",
+                    "http://localhost:3001/api/insert-test-result",
                     {
                         dates: datetime,
                         disease: enteredDisease,
@@ -135,7 +135,7 @@ const TestDNA = ({ diseasesList, testResult, onUpdate }) => {
                 );
             } else {
                 await Axios.post(
-                    "https://dna-tester.herokuapp.com/api/insert-test-result",
+                    "http://localhost:3001/api/insert-test-result",
                     {
                         dates: datetime,
                         disease: enteredDisease,
