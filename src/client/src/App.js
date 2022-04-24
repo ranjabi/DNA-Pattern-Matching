@@ -29,7 +29,7 @@ function App() {
   }, []);
 
   const updateDiseasesList = (diseaseName, DNASequence) => {
-    if (testResult.length === 0) {
+    if (diseasesList.length === 0) {
       setDiseasesList([
         {
           id: 1,
@@ -88,7 +88,7 @@ function App() {
   return (
     <div class="bg-primary h-screen">
       <div class="p-14 flex justify-center">
-        <AddDisease items={diseasesList} onUpdate={updateDiseasesList} />
+        <AddDisease diseasesList={diseasesList} onUpdate={updateDiseasesList} />
         <TestDNA diseasesList={diseasesList} testResult={testResult} onUpdate={updateTestResult} />
         <FindResult items={testResult} />
       </div>

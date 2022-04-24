@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  form {
+    @apply flex flex-col
+  }
   h1 {
     @apply text-3xl mb-7 ml-4 mt-5
   }
