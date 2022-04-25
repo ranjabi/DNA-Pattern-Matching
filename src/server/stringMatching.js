@@ -17,7 +17,7 @@ exports.isInfected = function (text, pattern, stringMatcher) {
         return 1;
     } else {
         const similarity = lcs.rateLCS(text, pattern);
-        if (similarity > 0.8) {
+        if (similarity >= 0.8) {
             return 1;
         } else {
             return 0;
