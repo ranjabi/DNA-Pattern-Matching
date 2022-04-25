@@ -41,6 +41,7 @@
     border-radius: 50px;
     height: 30px;
     position: relative;
+    margin-right: 6px;
   }
   
   .dialog-button {

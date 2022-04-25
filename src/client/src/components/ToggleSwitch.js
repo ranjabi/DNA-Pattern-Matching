@@ -3,7 +3,7 @@ const ToggleSwitch = ({ selected, toggleSelected }) => {
         <div className="toggle-container" onClick={toggleSelected}>
             
             <div className={`dialog-button ${selected ? "" : "disabled"}`}>
-                {selected ? "YES" : "NO"}
+                {selected ? "⠀" : "⠀"}
             </div>
         </div>
     );
