@@ -2,7 +2,7 @@ import { useState, useEffect, useLayoutEffect } from "react";
 import Axios from "axios";
 import HasilTes from "./HasilTes";
 
-const TestDNA = ({ diseasesList, testResult, onUpdate }) => {
+const TestDNA = ({ diseasesList, testResult, onUpdate, selected }) => {
     const [enteredDisease, setEnteredDisease] = useState("");
     const [enteredUsername, setEnteredUsername] = useState("");
     const [enteredDNASequence, setEnteredDNASequence] = useState("");
@@ -64,14 +64,20 @@ const TestDNA = ({ diseasesList, testResult, onUpdate }) => {
 
     const submitTestResult = async (event) => {
         event.preventDefault();
+        let inputContent = "";
+        if (!selected) {
+            inputContent = fileContent;
+        } else {
+            inputContent = enteredDNASequence
+        }
         if (
             enteredUsername === "" ||
             enteredDisease === "" ||
-            enteredDNASequence === ""
+            inputContent === ""
         ) {
             alert("Isi kolom yang masih kosong!");
         } else {
-            if (!isValidDNASequence(enteredDNASequence)) {
+            if (!isValidDNASequence(inputContent)) {
                 alert(
                     "Invalid DNA Sequence\nDNA Sequence only contains A, G, C, T"
                 );
@@ -87,7 +93,7 @@ const TestDNA = ({ diseasesList, testResult, onUpdate }) => {
                     {
                         dates: datetime,
                         disease: enteredDisease,
-                        dna_sequence: enteredDNASequence,
+                        dna_sequence: inputContent,
                         similarity: similarity,
                         isInfected: isInfected,
                         username: enteredUsername,
@@ -101,7 +107,7 @@ const TestDNA = ({ diseasesList, testResult, onUpdate }) => {
                     datetime,
                     enteredUsername,
                     enteredDisease,
-                    enteredDNASequence,
+                    inputContent,
                     newSimilarities,
                     newIsInfected
                 );
@@ -110,58 +116,6 @@ const TestDNA = ({ diseasesList, testResult, onUpdate }) => {
             }
         }
 		setEnteredDisease("");
-        setEnteredUsername("");
-        setEnteredDNASequence("");
-    };
-
-    const submitTestResultFromFile = async (event) => {
-        event.preventDefault();
-        if (
-            enteredUsername === "" ||
-            enteredDisease === "" ||
-            enteredDNASequence === ""
-        ) {
-            alert("Isi kolom yang masih kosong!");
-        } else {
-            if (!isValidDNASequence(enteredDNASequence)) {
-                alert(
-                    "Invalid DNA Sequence\nDNA Sequence only contains A, G, C, T"
-                );
-            } else if (!isExistDisease(enteredDisease)) {
-                alert(
-                    "Sorry, disease " +
-                        enteredDisease +
-                        " does not exist in database :("
-                );
-            } else {
-                await Axios.post(
-                    "http://localhost:3001/api/insert-test-result",
-                    {
-                        dates: datetime,
-                        disease: enteredDisease,
-                        dna_sequence: fileContent,
-                        similarity: similarity,
-                        isInfected: isInfected,
-                        username: enteredUsername,
-                        stringMatcher: stringMatcher,
-                    }
-                );
-                const [newSimilarities, newIsInfected] = await getSimilarity();
-                setSimilarity(newSimilarities);
-                setIsInfected(newIsInfected);
-                onUpdate(
-                    datetime,
-                    enteredUsername,
-                    enteredDisease,
-                    fileContent,
-                    newSimilarities,
-                    newIsInfected
-                );
-				setShowTestResult(true);
-                alert("Insert Success");
-            }
-        }
-        setEnteredDisease("");
         setEnteredUsername("");
         setEnteredDNASequence("");
     };
@@ -192,17 +146,17 @@ const TestDNA = ({ diseasesList, testResult, onUpdate }) => {
                     onChange={usernameChangeHandler}
                 />
                 <label>Sequence DNA Pengguna:</label>
-                <input
+                {selected && <input
                     type="text"
                     name="dna-sequence"
                     value={enteredDNASequence}
                     onChange={DNASequenceChangeHandler}
-                />
-                <input
+                />}
+                {!selected && <input
                     class="bg-primary rounded-lg text-white text-md w-72"
                     type="file"
                     onChange={handleFileChange}
-                ></input>
+                ></input>}
                 <label>Prediksi Penyakit:</label>
                 <input
                     type="text"
@@ -221,16 +175,13 @@ const TestDNA = ({ diseasesList, testResult, onUpdate }) => {
                     className="bg-tertiary hover:bg-blue-900 my-4 rounded-md w-56 mx-auto h-8"
                     type="submit"
                 >
-                    Submit using Input
+                    Submit
                 </button>
             </form>
-            {/* <button onClick={submitTestResultFromFile}>
-        Submit using File Upload
-      </button> */}
             <div>
-                <p>File Content: {fileContent}</p>
-                <p>Hasil Tes</p>
-                <p>Tanggal - Pengguna - Penyakit - Similarity - True/False</p>
+                {!selected && <p>File Content: {fileContent}</p>}
+                <p className="text-center">Hasil Tes</p>
+                <p className="text-xs text-center">Tanggal - Pengguna - Penyakit - Similarity - Status</p>
             </div>
             {showTestResult && <HasilTes testResult={testResult} />}
         </div>

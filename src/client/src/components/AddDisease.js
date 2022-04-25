@@ -2,7 +2,7 @@ import { useState } from "react";
 import Axios from "axios";
 import { reader } from "react-dom";
 
-const AddDisease = ({ diseasesList, onUpdate }) => {
+const AddDisease = ({ selected, diseasesList, onUpdate }) => {
     const [diseaseName, setDiseaseName] = useState("");
     const [DNASequence, setDNASequence] = useState("");
     const [fileContent, setFileContent] = useState("");
@@ -38,29 +38,28 @@ const AddDisease = ({ diseasesList, onUpdate }) => {
 
     const submitDisease = (event) => {
         event.preventDefault();
-        let isFromFile = false;
-        let dna_sequence_media = () => {
-            if (isFromFile) {
-                return fileContent;
-            } else {
-                return DNASequence;
-            }
-        };
-        if (diseaseName === "" || DNASequence == "") {
-            alert("Isi form yang masih kosong!");
+        let inputContent = "";
+        if (!selected) {
+            inputContent = fileContent;
+        } else {
+            inputContent = DNASequence
+        }
+        console.log("file content: " + inputContent)
+        if (diseaseName === "" || inputContent == "") {
+            alert("Nama penyakit atau baris DNA tidak boleh kosong!");
         } else {
             if (isExistDisease(diseaseName)) {
                 alert("Penyakit dengan nama yang sama sudah ada");
             } else {
-                if (isValidDNASequence(DNASequence)) {
+                if (isValidDNASequence(inputContent)) {
                     Axios.post(
                         "http://localhost:3001/api/insert-diseases-list",
                         {
                             disease_name: diseaseName,
-                            dna_sequence: dna_sequence_media,
+                            dna_sequence: inputContent,
                         }
                     ).then(() => {
-                        onUpdate(diseaseName, DNASequence);
+                        onUpdate(diseaseName, inputContent);
                         alert("Insert Success");
                     });
                 } else {
@@ -92,25 +91,27 @@ const AddDisease = ({ diseasesList, onUpdate }) => {
                     onChange={diseaseNameChangeHandler}
                 />
                 <label>Sequence DNA:</label>
+                {selected && (
                 <input
                     type="text"
                     name="dna-sequence"
                     value={DNASequence}
                     onChange={DNASequenceChangeHandler}
-                />
-                <input
+                />)}
+                {!selected && (<input
                     class="bg-primary rounded-lg text-white text-md w-72"
                     type="file"
                     onChange={handleFileChange}
-                />
+                />)}
+                
                 <button
                     className="bg-tertiary hover:bg-blue-900 my-4 rounded-md w-56 mx-auto h-8"
                     type="submit"
                 >
-                    Submit using Input
+                    Submit
                 </button>
             </form>
-            <p>File Content: {fileContent}</p>
+            {!selected && <p>File Content: {fileContent}</p>}
         </div>
     );
 };
