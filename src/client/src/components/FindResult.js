@@ -23,14 +23,13 @@ const FindResult = (props) => {
         <div className="card">
             <h1>Find Result</h1>
             <input type="text" name="input-query" placeholder="Search..." onChange={searchTermChangeHandler}/>
-            <p>id, dates, disease, dna_sequence, similarity, isInfected</p>
+            <p>id. dates - disease - similarity - isInfected</p>
             
             {searchResult.map((val) => {
                 return (
                     <div style={{ textAlign: "left" }}>
                         <label>
-                            {val.id}, {val.dates}, {val.username}, {val.disease}, {val.dna_sequence}, {val.similarity}%,{" "}
-                            {val.isInfected}
+                            {val.id}. {val.dates} - {val.username} - {val.disease} - {val.similarity * 100}% - {val.isInfected === 1 ? 'True' : 'False'}
                         </label>
                     </div>
                 );
