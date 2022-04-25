@@ -3,12 +3,14 @@ import AddDisease from "./components/AddDisease";
 import TestDNA from "./components/TestDNA";
 import FindResult from "./components/FindResult";
 import MagicButton from "./components/MagicButton";
+import Navbar from "./components/Navbar"
 import { useState, useEffect } from "react";
 import Axios from "axios";
 
 function App() {
   const [diseasesList, setDiseasesList] = useState([]);
   const [testResult, setTestResult] = useState([]);
+  const [selected, setSelected] = useState(false);
 
   useEffect(() => {
     console.log("diseases list use effect run");
@@ -27,6 +29,10 @@ function App() {
       }
     );
   }, []);
+
+  const selectedHandler = (val) => {
+    setSelected(val)
+  }
 
   const updateDiseasesList = (diseaseName, DNASequence) => {
     if (diseasesList.length === 0) {
@@ -87,9 +93,10 @@ function App() {
 
   return (
     <div class="bg-primary h-screen">
+      <Navbar selected={selected} selectedHandler={selectedHandler}/>
       <div class="p-14 flex justify-center">
-        <AddDisease diseasesList={diseasesList} onUpdate={updateDiseasesList} />
-        <TestDNA diseasesList={diseasesList} testResult={testResult} onUpdate={updateTestResult} />
+        <AddDisease diseasesList={diseasesList} onUpdate={updateDiseasesList} selected={selected} />
+        <TestDNA diseasesList={diseasesList} testResult={testResult} onUpdate={updateTestResult} selected={selected} />
         <FindResult items={testResult} />
       </div>
       <MagicButton diseasesList={diseasesList} testResult={testResult} />
