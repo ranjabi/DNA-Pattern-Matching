@@ -89,7 +89,7 @@ exports.regexSearchTerm = function(str) {
     }
     return {
         dateSearch: dateSearch,
-        nameSearch: nameSearch,
+        nameSearch: nameSearch.toLowerCase(),
         searchMethod: searchMethod
     }
 }
