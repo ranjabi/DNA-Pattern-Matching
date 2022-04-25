@@ -23,7 +23,7 @@ const FindResult = (props) => {
         <div className="card">
             <h1>Find Result</h1>
             <input type="text" name="input-query" placeholder="Search..." onChange={searchTermChangeHandler}/>
-            <p>id. dates - disease - similarity - isInfected</p>
+            <p>id. dates - name - disease - similarity - isInfected</p>
             
             {searchResult.map((val) => {
                 return (
