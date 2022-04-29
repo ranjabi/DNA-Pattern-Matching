@@ -1,12 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Axios from "axios";
 
 const FindResult = (props) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResult, setSearchResult] = useState([]);
 
-    const searchTermChangeHandler = (event) => {
-        setSearchTerm(event.target.value);
+    useEffect(() => {
         if (searchTerm.length > 0) {
             Axios.get("https://dna-tester.herokuapp.com/api/search-test-result", {
                 params: {
@@ -17,6 +16,10 @@ const FindResult = (props) => {
                 setSearchResult(response.data);
             });
         }
+      }, [searchTerm]);
+
+    const searchTermChangeHandler = (event) => {
+        setSearchTerm(event.target.value);
     }
 
     return (
