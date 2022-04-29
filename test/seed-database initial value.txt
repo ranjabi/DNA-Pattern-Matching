@@ -1,0 +1,40 @@
+[TABLE diseases]
+[menyimpan daftar penyakit beserta baris DNA]
+id, disease_name, dna_sequence
+
+11, Tubes syndrome, GAGCGATTTGTTACAT
+13, kebingungan, TTAAAAAAAGCGCAAA
+14, tugas besar, GAGTTAAAGTATACTA
+12, pegal, ACTGAGTTAAAACAAT
+15, aids, GATCAGATCAGATCAT
+16, alzheimer, AAAAAAAAGGGGGGGG
+1, influenza, GAGCGATTTGTTTCAT
+2, tuberkulosis, CAAAAGCTGTAGGACG
+3, cacar air, TTAAACGCGGCGCAAA
+4, tifus, GAGTTCCCGTATACTT
+5, campak, GCTCCTGGGGTTCTGT
+6, pneumonia, CTTGGTCCCTTCAATA
+7, hepatitis, GAATGCGGCCTTGTAT
+8, polio, GTTCTTGCTATTGTAC
+9, ebola, ATCGTTCCACCTACCG
+10, rabies, ACTGAGTTCCAACAAT
+
+[TABLE test_result]
+[menyimpan hasil perdiksi penyakit]
+id, dates, username, disease, dna_sequence, similarity, isInfected
+
+1, 25 April 2022, kevin, influenza, ACGAGTCACCATGTACAACTTCCAGGGCCTAG, 81.25%, 1
+2, 25 April 2022, adit, influenza, CAAAAGCGATATTAATATCTGACCGTCCTAGT, 87.5%, 1
+3, 25 April 2022, gede, influenza, ACGAGTCACCATGTACAACTTCCAGGGCCTAG, 81.25%, 1
+4, 25 April 2022, lisna, tifus, CGTGGTGAAGACGCAAAAAAAAATTTTTTTTT, 56.25%, 0
+5, 25 April 2022, daffa, cacar air, AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA, 37.5%, 0
+6, 25 April 2022, tito, tifus, GAGTTCCCGTATACTTAACTTCCAGGGCCTAG, 100%, 1
+7, 25 April 2022, girvin, tifus, TGGGTTTACGTGGGAAAGACACCCAGTGTCGC, 75%, 0
+8, 25 April 2022, daffa, campak, AGGTGCTTGTGTCCCAAACAACACCTGACCTT, 68.75%, 0
+9, 25 April 2022, tito, campak, GAGTTCCCGTATACTTAACTTCCAGGGCCTAG, 75%, 0
+10, 25 April 2022, william, ebola, TTCATGATATATATGCGAAACGGGTGCGTGGT, 68.75%, 0
+11, 1 January 2021, gregous, cacar air, TGCTGAAACCGTCCTTACATAATGCCTCCGGG, 61%, 0
+12, 28 April 2022, Kiho, Tubes syndrome, CAAAAGCGATATTAATATCTGACCGTCCTAGA, 81.25%, 1
+13, 29 April 2022, hamilton, tugas besar, GAGTGGGGGGGTACTAGAGTGGGGGGGTACTA, 93.75%, 1
+14, 29 April 2022, ranjabi, pegal, AAAAATTAAAAAAAAACCCAAAAAAAGGGAAA, 68.75%, 0
+15, 29 April 2022, bean, alzheimer, TTTTTTTTGAGAGACT, 18.75%, 0
