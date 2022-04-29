@@ -25,7 +25,13 @@ const PORT = 3001;
 
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
+const corsOptions ={
+    origin:'*', 
+    credentials:true,
+    optionSuccessStatus:200,
+ }
+ 
+ app.use(cors(corsOptions))
 
 app.get("/favicon.ico", (req, res) => {
     res.sendStatus(204);
