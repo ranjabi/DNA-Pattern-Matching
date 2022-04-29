@@ -1,8 +1,6 @@
 // text : user's sequence DNA
 // pattern : disease's sequence DNA
 
-var lcs = require('./LCSAlgorithm')
-
 exports.isInfected = function (text, pattern, stringMatcher) {
     var isInfected;
 
@@ -15,17 +13,7 @@ exports.isInfected = function (text, pattern, stringMatcher) {
         isInfected = bmMatch(text, pattern) !== -1 ? 1 : 0;
     }
 
-
-    if (isInfected === 1) {     // exact matching
-        return 1;
-    } else {                    // similarity test
-        const similarity = lcs.rateLCS(text, pattern);
-        if (similarity >= 0.8) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
+    return isInfected;
 };
 
 // Main algorithm for Knuth-Morris-Pratt

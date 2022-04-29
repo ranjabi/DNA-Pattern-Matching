@@ -102,10 +102,19 @@ const insertTestResult = async (req, res) => {
     const stringMatcher = req.body.stringMatcher;
     console.log("-------- stringMatcher: " + stringMatcher);
     
-    const isInfected = sm.isInfected(dna_sequence, disease_sequence, stringMatcher);
-    console.log(isInfected);
+    var isInfected = sm.isInfected(dna_sequence, disease_sequence, stringMatcher);
+    var similarity;
+    // Exact Matching
+    if (isInfected) {
+        isInfected = 1;
+        similarity = 1;
+    // Similarity Test
+    } else {
+        similarity = lcs.rateLCS(text, pattern);
+        isInfected = similarity >= 0.8 ? 1 : 0;
+    }
 
-    const similarity = lcs.rateLCS(dna_sequence, disease_sequence);
+    console.log(isInfected);
     console.log(similarity);
 
     pool.query(
