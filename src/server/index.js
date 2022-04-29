@@ -11,12 +11,22 @@ const Pool = require("pg").Pool;
 
 const connectionString = process.env.DATABASE_URL
 
-const pool = new Pool({
-  connectionString: connectionString,
-  ssl: {
-    rejectUnauthorized: false
-  }
-})
+const pool = (() => {
+    if (!connectionString) {
+        return new Pool({
+            connectionString: 'postgres://bzflpdkajwjyui:40aab3d40cad2bc7b13bb36f2a68ccc833c6534f6460cce7cffb14eadae29bf0@ec2-44-194-4-127.compute-1.amazonaws.com:5432/d85gcsh9u91r2i',
+            ssl: {
+                rejectUnauthorized: false
+              }
+        });
+    } else {
+        return new Pool({
+            connectionString: process.env.DATABASE_URL,
+            ssl: {
+                rejectUnauthorized: false
+              }
+        });
+} })();
 
 pool.connect((err, client, release) => {
     if (err) {
