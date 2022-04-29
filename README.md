@@ -15,6 +15,8 @@ Front end website dideploy menggunakan layanan Netlify dan back end website dide
 - https://dna-tester.netlify.app/
 - https://dna-tester.herokuapp.com/
 
+![Preview](doc/preview.png)
+
 
 ## Requirement
 - [Node.js](https://nodejs.org/en/download/)

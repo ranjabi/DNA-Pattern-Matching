@@ -84,14 +84,14 @@ const AddDisease = ({ selected, diseasesList, onUpdate }) => {
         <div className="card">
             <h1>Add Disease</h1>
             <form onSubmit={submitDisease}>
-                <label>Nama Penyakit:</label>
+                <label>Disease Name</label>
                 <input
                     type="text"
                     name="disease-name"
                     value={diseaseName}
                     onChange={diseaseNameChangeHandler}
                 />
-                <label>Sequence DNA:</label>
+                <label>Sequence DNA</label>
                 {selected && (
                 <input
                     type="text"

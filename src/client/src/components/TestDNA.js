@@ -141,14 +141,14 @@ const TestDNA = ({ diseasesList, testResult, onUpdate, selected }) => {
         <div className="card">
             <h1>Test DNA</h1>
             <form onSubmit={submitTestResult}>
-                <label>Nama Pengguna:</label>
+                <label>User's Name</label>
                 <input
                     type="text"
                     name="username"
                     value={enteredUsername}
                     onChange={usernameChangeHandler}
                 />
-                <label>Sequence DNA Pengguna:</label>
+                <label>Sequence DNA</label>
                 {selected && <input
                     type="text"
                     name="dna-sequence"
@@ -160,7 +160,7 @@ const TestDNA = ({ diseasesList, testResult, onUpdate, selected }) => {
                     type="file"
                     onChange={handleFileChange}
                 ></input>}
-                <label>Prediksi Penyakit:</label>
+                <label>Disease Prediction</label>
                 <input
                     type="text"
                     name="predicted-disease"
@@ -187,8 +187,8 @@ const TestDNA = ({ diseasesList, testResult, onUpdate, selected }) => {
             </form>
             <div>
                 {!selected && <p>File Content: {fileContent}</p>}
-                <p className="text-center">Hasil Tes</p>
-                <p className="text-xs text-center">Tanggal - Pengguna - Penyakit - Similarity - Status</p>
+                <p className="text-center">Test Result</p>
+                <p className="text-xs text-center">Dates - Name - Disease - Similarity - Infected</p>
             </div>
             {showTestResult && <HasilTes testResult={testResult} />}
         </div>
