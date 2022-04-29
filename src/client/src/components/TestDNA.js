@@ -166,10 +166,14 @@ const TestDNA = ({ diseasesList, testResult, onUpdate, selected }) => {
                 />
                 <div onChange={stringMatcherChangeHandler}>
                     <label>Choose String Matching Algorithm:</label> <br />
-                    <input type="radio" name="string-matcher" value="1" />
-                    <label>Knuth-Morris-Pratt</label> <br />
-                    <input type="radio" name="string-matcher" value="2" />
-                    <label>Boyer-Moore</label>
+                    <div className="flex">
+                        <input className="w-4" type="radio" name="string-matcher" value="1" />
+                        <label className="pt-2">Knuth-Morris-Pratt</label> <br />
+                    </div>
+                    <div className="flex">
+                        <input className="w-4" type="radio" name="string-matcher" value="2" />
+                        <label className="pt-2">Boyer-Moore</label>
+                    </div>
                 </div>
                 <button
                     className="bg-tertiary hover:bg-blue-900 my-4 rounded-md w-56 mx-auto h-8"
