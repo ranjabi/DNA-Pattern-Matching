@@ -10,6 +10,7 @@
 
 ## General Information
 Project website dna tester ini dibuat untuk memenuhi tugas besar 3 mata kuliah IF2211 Strategi Algoritma. Website dibuat menggunakan ReactJS sebagai front end dan NodeJs sebagai back end. Basis data menggunakan PostgreSQL yang dimuat di layanan Heroku.
+Algoritma yang digunakan pada project ini adalah Knuth-Morris-Pratt dan Boyer-Moore untuk String Matching, algoritma Longest Common Subsequence untuk menghitung tingkat similaritas, serta Regular Expression untuk filter pada pencarian dan sanitasi input.
 
 Front end website dideploy menggunakan layanan Netlify dan back end website dideploy menggunakan layanan Heroku.
 - https://dna-tester.netlify.app/
@@ -51,6 +52,6 @@ Front end website dideploy menggunakan layanan Netlify dan back end website dide
 | 13520051  | Flavia Beatrix Leoni A. S.|
 | 13520066  | Putri Nurhaliza           |
 
-TUGAS BESAR 3 - Algorithm Strategies
+TUGAS BESAR 3 - Strategi Algoritma
 
 Bandung Institute of Technology
