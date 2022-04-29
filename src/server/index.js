@@ -122,7 +122,7 @@ const insertTestResult = async (req, res) => {
         similarity = 1;
     // Similarity Test
     } else {
-        similarity = lcs.rateLCS(text, pattern);
+        similarity = lcs.rateLCS(dna_sequence, disease_sequence);
         isInfected = similarity >= 0.8 ? 1 : 0;
     }
 
