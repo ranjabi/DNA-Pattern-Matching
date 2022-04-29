@@ -39,7 +39,7 @@ const corsOptions ={
     optionSuccessStatus:200,
  }
  
-app.use(cors(coursOptions))
+app.use(cors(corsOptions))
 
 app.get("/favicon.ico", (req, res) => {
     res.sendStatus(204);
