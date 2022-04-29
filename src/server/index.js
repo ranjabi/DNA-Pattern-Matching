@@ -8,17 +8,12 @@ var lcs = require('./LCSAlgorithm')
 var search = require('./regexSearch');
 
 const Pool = require("pg").Pool;
+
+const connectionString = process.env.DATABASE_URL
+
 const pool = new Pool({
-    user: "bzflpdkajwjyui",
-    host: "ec2-44-194-4-127.compute-1.amazonaws.com",
-    database: "d85gcsh9u91r2i",
-    password:
-        "40aab3d40cad2bc7b13bb36f2a68ccc833c6534f6460cce7cffb14eadae29bf0",
-    port: 5432,
-    ssl: {
-        rejectUnauthorized: false,
-    },
-});
+  connectionString: connectionString,
+})
 
 pool.connect((err, client, release) => {
     if (err) {
