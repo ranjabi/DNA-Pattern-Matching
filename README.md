@@ -3,7 +3,6 @@
 ## Table of Contents
 - [General Information](#general-information)
 - [Requirements](#requirement)
-- [Depedencies](#depedencies)
 - [How To Build](#how-to-build)
 - [How To Run](#how-to-run)
 - [Authors](#authors)
