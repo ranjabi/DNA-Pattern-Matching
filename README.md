@@ -5,6 +5,7 @@
 - [Requirements](#requirement)
 - [How To Build](#how-to-build)
 - [How To Run](#how-to-run)
+- [Usage](#usage)
 - [Authors](#authors)
 
 ## General Information
@@ -27,22 +28,54 @@ Front end website dideploy menggunakan layanan Netlify dan back end website dide
     ```
     https://github.com/Putriliza/Tucil3_13520066.git
     ```
-2. Ekstrak zip
-3. Buka 2 terminal di direktori repository yang didownload
-4. Untuk menjalankan back end, jalankan perintah berikut
+2. Buka 2 terminal di direktori repository yang sudah diclone
+3. Untuk menjalankan back end, jalankan perintah berikut
     ```
     cd src/server
     npm install
     nodemon start
     ```
     Back end akan dijalankan pada port 3001. http://localhost:3001/
-5. Untuk menjalankan front end, jalankan perintah berikut
+4. Untuk menjalankan front end, jalankan perintah berikut
     ```
     cd src/client
     npm install
     npm start
     ```
     Front end akan dijalankan pada port 3000. http://localhost:3000/
+
+## Usage
+1. Fitur Add Disease
+    - Input nama penyakit (penyakit yang diterima adalah penyakit baru yang belum ada di database)
+    - Input sequence DNA penyakit (valid jika hanya mengandung A, C, G, T)
+    - Klik tombol submit
+2. Fitur Test DNA
+    - Input nama pengguna
+    - Input sequence DNA pengguna (valid jika hanya mengandung A, C, G, T)
+    - Input nama penyakit yang ingin ditest
+    - Pilih algoritma string matching yang diinginkan
+    - Klik tombol Submit
+    - Hasil test akan ditampilkan ke layar
+3. Fitur Find Result
+    - Input terms pencarian
+    - Pengguna dapat memberi masukan berupa:
+        ```
+        - <tanggal_prediksi> <spasi> <nama_penyakit>
+        - <nama_penyakit> <spasi> <tanggal_prediksi>
+        - <tanggal_prediksi>
+        - <nama_penyakit>
+        ```
+    - Format tanggal:
+        ```
+        - dd-mm-yyyy
+        - dd/mm/yyyy
+        - dd month yyyy
+        - yyyy-mm-dd
+        - yyyy/mm/dd
+        - yyyy month dd
+        ```
+4. Disediakan toggle switch jika ingin input sequence DNA tanpa upload file
+5. Klik button ```Show Database``` untuk melihat isi database
 
 ## Authors
 
