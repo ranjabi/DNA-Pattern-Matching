@@ -37,9 +37,11 @@ exports.regexSearchTerm = function(str) {
         date[1] = convertMonth(date[1]);
         if (reTgl1.test(str) || reTgl2.test(str)) {
             // date[0] = date[0].padStart(2, '0');
+            date[0] = convertDate(date[0]);
             dateSearch = date.join(" ");
         } else {
             // date[2] = date[2].padStart(2, '0');
+            date[2] = convertDate(date[2]);
             dateSearch = date.reverse().join(" ");
         }
         console.log("date " + dateSearch);
@@ -57,9 +59,11 @@ exports.regexSearchTerm = function(str) {
             date[1] = convertMonth(date[1]);
             if (reTglNama1.test(str) || reNamaTgl1.test(str)) {
                 // date[0] = date[0].padStart(2, '0');
+                date[0] = convertDate(date[0]);
                 dateSearch = date.join(" ");
             } else {
                 // date[2] = date[2].padStart(2, '0');
+                date[2] = convertDate(date[2]);
                 dateSearch = date.reverse().join(" ");
             }
         } else {
@@ -73,9 +77,11 @@ exports.regexSearchTerm = function(str) {
             elmt[1+x] = convertMonth(elmt[1+x]);
             if (reTglNama2.test(str) || reNamaTgl2.test(str)) {
                 // elmt[0+x] = elmt[0+x].padStart(2, '0');
+                elmt[0+x] = convertDate(elmt[0+x]);
                 dateSearch = elmt.slice(0+x,3+x).join(" ");
             } else {
                 // elmt[2+x] = elmt[2+x].padStart(2, '0');
+                elmt[2+x] = convertDate(elmt[2+x]);
                 dateSearch = elmt.slice(0+x,3+x).reverse().join(" ");
             }
         }
@@ -119,5 +125,14 @@ const convertMonth = (month) => {
         return "November";
     } else if (month.match(/(d|D)ec(?:ember)?/) || month.match(/12/)) {
         return "December";
+    }
+}
+
+const convertDate = (date) => {
+    const reDate = new RegExp(/0\d/);
+    if (reDate.test(date)) {
+        return date.slice(1, 2);
+    } else {
+        return date;
     }
 }
