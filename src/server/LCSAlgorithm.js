@@ -1,5 +1,7 @@
+// return the max of two numbers
 const max = (a, b) => a > b ? a : b;
  
+// return lcs length of two strings
 const lcs = (text, pattern) => {
     var m = text.length;
     var n = pattern.length;
@@ -24,8 +26,10 @@ const lcs = (text, pattern) => {
     return L[m][n];
 }
 
+// return the lcs rate of two strings
 exports.rateLCS = function (text, pattern) {
     let lcsLength = lcs(text, pattern);
+    // with asumptions that the length of the text > pattern
     let lcsRate = lcsLength / pattern.length;
     return lcsRate;
 };
@@ -39,6 +43,3 @@ exports.rateLCS = function (text, pattern) {
 //     console.log("lcsLength: " + lcsLength);
 //     return lcsRate;
 // }
-
-// console.log(rateLCS("GCGCGCGCTCTACG", "ACGACA"));
-// console.log(rateLCS("AATGACCTAAA", "GACCTTGA"));

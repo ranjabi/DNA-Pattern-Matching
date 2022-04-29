@@ -1,10 +1,12 @@
-// text : sequence DNA pengguna
-// pattern : sequence DNA penyakit
+// text : user's sequence DNA
+// pattern : disease's sequence DNA
 
 var lcs = require('./LCSAlgorithm')
 
 exports.isInfected = function (text, pattern, stringMatcher) {
     var isInfected;
+
+    // stringMatcher based on user's choice
     if (stringMatcher === 1) {
         console.log("-------------------- KMP")
         isInfected = kmpMatch(text, pattern) !== -1 ? 1 : 0;
@@ -13,9 +15,10 @@ exports.isInfected = function (text, pattern, stringMatcher) {
         isInfected = bmMatch(text, pattern) !== -1 ? 1 : 0;
     }
 
-    if (isInfected === 1) {
+
+    if (isInfected === 1) {     // exact matching
         return 1;
-    } else {
+    } else {                    // similarity test
         const similarity = lcs.rateLCS(text, pattern);
         if (similarity >= 0.8) {
             return 1;
@@ -25,6 +28,7 @@ exports.isInfected = function (text, pattern, stringMatcher) {
     }
 };
 
+// Main algorithm for Knuth-Morris-Pratt
 const kmpMatch = (text, pattern) => {
     let n = text.length;
     let m = pattern.length;
@@ -50,6 +54,7 @@ const kmpMatch = (text, pattern) => {
     return -1;
 };
 
+// Main algorithm for Boyer-Moore
 const bmMatch = (text, pattern) => {
     const last = buildLast(pattern);
     let n = text.length;
@@ -79,6 +84,8 @@ const bmMatch = (text, pattern) => {
     return -1;
 };
 
+
+// helper function for KMP
 const computeFail = (pattern) => {
     let m = pattern.length;
     const fail = new Array(m);
@@ -102,7 +109,7 @@ const computeFail = (pattern) => {
     return fail;
 };
 
-
+// helper function for Boyer-Moore
 const buildLast = (pattern) => {
     const last = new Array(128);
     for (let i = 0; i < 128; i++) {

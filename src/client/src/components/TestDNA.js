@@ -62,6 +62,7 @@ const TestDNA = ({ diseasesList, testResult, onUpdate, selected }) => {
         setStringMatcher(event.target.value);
     };
 
+    // submit new test result
     const submitTestResult = async (event) => {
         event.preventDefault();
         let inputContent = "";
@@ -120,11 +121,13 @@ const TestDNA = ({ diseasesList, testResult, onUpdate, selected }) => {
         setEnteredDNASequence("");
     };
 
+    // Check if the DNA sequence is valid, only contains A, G, C, T
     var isValidDNASequence = function (dnaSequence) {
         const re = new RegExp(/^[ACGT]+$/);
         return re.test(dnaSequence);
     };
 
+    // Check if the input disease is exist in the database
     const isExistDisease = function (diseaseName) {
         for (let i = 0; i < diseasesList.length; i++) {
             if (diseasesList[i].disease_name === diseaseName) {

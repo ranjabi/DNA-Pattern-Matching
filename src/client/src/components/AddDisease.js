@@ -36,6 +36,7 @@ const AddDisease = ({ selected, diseasesList, onUpdate }) => {
         };
     };
 
+    // submit new disease
     const submitDisease = (event) => {
         event.preventDefault();
         let inputContent = "";
@@ -73,9 +74,9 @@ const AddDisease = ({ selected, diseasesList, onUpdate }) => {
         setDNASequence("");
     };
 
+    // Check if the DNA sequence is valid, only contains A, G, C, T
     var isValidDNASequence = function (str) {
         const re = new RegExp(/^[ACGT]+$/);
-        console.log(re.test(str));
         return re.test(str);
     };
 

@@ -45,6 +45,7 @@ app.get("/favicon.ico", (req, res) => {
     res.sendStatus(204);
 });
 
+// function to get all the diseases and their dna sequences from the database
 const getDiseasesList = (req, res) => {
     pool.query("SELECT * FROM diseases", (err, result) => {
         if (err) {
@@ -54,6 +55,7 @@ const getDiseasesList = (req, res) => {
     });
 };
 
+// function to get the dna sequence of a disease
 async function getDiseaseDNASequence(disease_name) {
     const result = await pool.query(
         "SELECT dna_sequence FROM diseases WHERE disease_name = $1", [disease_name]
@@ -61,6 +63,7 @@ async function getDiseaseDNASequence(disease_name) {
     return result.rows[0]["dna_sequence"];
 }
 
+// function to insert new disease into the database
 const insertDiseasesList = (req, res) => {
     const disease_name = req.body.disease_name;
     const dna_sequence = req.body.dna_sequence;
@@ -76,6 +79,7 @@ const insertDiseasesList = (req, res) => {
     );
 };
 
+// function to get all the test results from the database
 const getTestResult = (req, res) => {
     pool.query("SELECT * FROM test_result", (err, result) => {
         if (err) {
@@ -85,6 +89,7 @@ const getTestResult = (req, res) => {
     });
 };
 
+// function to insert new test result into the database
 const insertTestResult = async (req, res) => {
     const dates = req.body.dates;
     const disease = req.body.disease;
@@ -96,14 +101,12 @@ const insertTestResult = async (req, res) => {
 
     const stringMatcher = req.body.stringMatcher;
     console.log("-------- stringMatcher: " + stringMatcher);
+    
     const isInfected = sm.isInfected(dna_sequence, disease_sequence, stringMatcher);
     console.log(isInfected);
 
     const similarity = lcs.rateLCS(dna_sequence, disease_sequence);
     console.log(similarity);
-
-    console.log(isInfected);
-
 
     pool.query(
         "INSERT INTO test_result (dates, username, disease, dna_sequence, similarity, isInfected) VALUES ($1, $2, $3, $4, $5, $6)",
@@ -118,6 +121,7 @@ const insertTestResult = async (req, res) => {
     );
 };
 
+// function to search test results based on search term
 const searchTestResult = (req, res) => {
     const searchTerm = req.query.searchTerm;
     const {dateSearch, nameSearch, searchMethod} = search.regexSearchTerm(searchTerm);
@@ -154,6 +158,8 @@ const searchTestResult = (req, res) => {
     }
 }
 
+
+// API config
 app.get("/api/diseases-list", getDiseasesList);
 app.post("/api/insert-diseases-list", insertDiseasesList);
 app.get("/api/test-result", getTestResult);
